@@ -1,5 +1,7 @@
 package com.pet.management.tracker.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.pet.management.tracker.model.PetType;
 import java.io.Serializable;
 import javax.validation.constraints.NotNull;
@@ -21,5 +23,9 @@ public class PetDto implements Serializable {
   @NotNull
   private PetType type;
   private String medicalNote;
+  @JsonProperty(access = Access.READ_ONLY)
   private OwnerDto owner;
+
+  @JsonProperty(access = Access.WRITE_ONLY)
+  private Long ownerId;
 }
