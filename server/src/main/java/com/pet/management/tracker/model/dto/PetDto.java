@@ -1,5 +1,7 @@
 package com.pet.management.tracker.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import com.pet.management.tracker.model.PetType;
@@ -8,11 +10,13 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.ToString;
 
 @Builder
 @ToString
 @Getter
+@JsonInclude(Include.NON_NULL)
 public class PetDto implements Serializable {
   private Long id;
   @NotNull(message = "Name can not be null")

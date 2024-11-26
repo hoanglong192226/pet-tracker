@@ -7,5 +7,9 @@ public interface PetService {
 
   List<PetDto> findAll();
 
-  List<PetDto> bulk(List<PetDto> pets);
+  List<PetDto> createPets(List<PetDto> pets);
+
+  List<PetDto> findByIds(List<Long> ids);
+
+  void deletePet(Long id);
 }

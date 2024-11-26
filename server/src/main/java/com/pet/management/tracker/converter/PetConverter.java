@@ -1,7 +1,9 @@
 package com.pet.management.tracker.converter;
 
 import com.pet.management.tracker.model.PetType;
+import com.pet.management.tracker.model.dto.OwnerDto;
 import com.pet.management.tracker.model.dto.PetDto;
+import com.pet.management.tracker.model.entity.Owner;
 import com.pet.management.tracker.model.entity.Pet;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +12,6 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class PetConverter implements DtoConverter<Pet, PetDto> {
-
-  private final OwnerConverter ownerConverter;
 
   @Override
   public PetDto toDto(Pet pet) {
@@ -22,14 +22,22 @@ public class PetConverter implements DtoConverter<Pet, PetDto> {
         .age(pet.getAge())
         .type(PetType.fromValue(pet.getType()))
         .medicalNote(pet.getMedicalNote())
-        .owner(ownerConverter.toDto(pet.getOwner()))
+        .owner(pet.getOwner() != null ? OwnerDto.builder().id(pet.getOwner().getId()).phone(pet.getOwner().getPhone())
+            .name(pet.getOwner().getName())
+            .build() : null)
         .build();
   }
 
   @Override
-  public Pet fromDto(PetDto viewModel) {
-    return new Pet(viewModel.getId(), viewModel.getName(), viewModel.getAge(), viewModel.getWeight(),
-        viewModel.getType().toString(), viewModel.getMedicalNote(), ownerConverter.fromDto(viewModel.getOwner()));
+  public Pet fromDto(PetDto petDto) {
+    Owner owner = null;
+    if (petDto.getOwnerId() != null) {
+      owner = new Owner();
+      owner.setId(petDto.getOwnerId());
+    }
+
+    return new Pet(petDto.getId(), petDto.getName(), petDto.getAge(), petDto.getWeight(),
+        petDto.getType().toString(), petDto.getMedicalNote(), owner);
 
   }
 }

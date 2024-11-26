@@ -7,7 +7,9 @@ public interface OwnerService {
 
   List<OwnerDto> findAll();
 
-  List<OwnerDto> bulk(List<OwnerDto> owners);
+  List<OwnerDto> createOwners(List<OwnerDto> owners);
 
   List<OwnerDto> findByIds(List<Long> ids);
+
+  void deleteOwner(Long id);
 }
