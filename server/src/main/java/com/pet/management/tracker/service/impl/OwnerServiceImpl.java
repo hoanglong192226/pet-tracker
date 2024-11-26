@@ -2,16 +2,10 @@ package com.pet.management.tracker.service.impl;
 
 import com.pet.management.tracker.converter.OwnerConverter;
 import com.pet.management.tracker.model.dto.OwnerDto;
-import com.pet.management.tracker.model.dto.PetDto;
 import com.pet.management.tracker.model.entity.Owner;
 import com.pet.management.tracker.repository.OwnerRepository;
 import com.pet.management.tracker.service.OwnerService;
-import com.pet.management.tracker.service.PetService;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +25,7 @@ public class OwnerServiceImpl implements OwnerService {
   }
 
   @Override
+  @Transactional
   public List<OwnerDto> createOwners(List<OwnerDto> ownerDtos) {
     List<Owner> owners = ownerDtos.stream().map(ownerConverter::fromDto).collect(Collectors.toList());
     List<Owner> savedOwners = ownerRepository.saveAll(owners);
@@ -44,7 +39,6 @@ public class OwnerServiceImpl implements OwnerService {
   }
 
   @Override
-  @Transactional
   public void deleteOwner(Long id) {
     ownerRepository.deleteIfExist(id);
   }

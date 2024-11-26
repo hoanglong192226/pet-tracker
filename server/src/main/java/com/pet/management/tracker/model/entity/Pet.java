@@ -20,7 +20,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-public class Pet implements Serializable {
+public class Pet extends BaseEntity implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

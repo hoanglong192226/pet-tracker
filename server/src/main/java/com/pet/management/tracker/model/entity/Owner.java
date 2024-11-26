@@ -22,7 +22,7 @@ import java.util.List;
 @Setter
 @ToString
 @Entity
-public class Owner implements Serializable {
+public class Owner extends BaseEntity implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)

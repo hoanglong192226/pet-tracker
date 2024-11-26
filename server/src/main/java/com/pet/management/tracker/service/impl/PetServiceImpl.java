@@ -7,7 +7,6 @@ import com.pet.management.tracker.repository.PetRepository;
 import com.pet.management.tracker.service.PetService;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +37,6 @@ public class PetServiceImpl implements PetService {
   }
 
   @Override
-  @Transactional
   public void deletePet(Long id) {
     petRepository.deleteIfExist(id);
   }
