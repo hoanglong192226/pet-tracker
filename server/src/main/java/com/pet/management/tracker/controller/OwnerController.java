@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/owners")
+@RequestMapping("/api/v1/owners")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class OwnerController {
 
@@ -31,18 +31,18 @@ public class OwnerController {
     return ownerService.findAll();
   }
 
-  @PostMapping
-  public List<OwnerDto> createOwners(@Valid @RequestBody OwnerDtoList ownerDtos) {
-    return ownerService.createOwners(ownerDtos.getOwners());
-  }
-
-  @RequestMapping("/{id}")
+  @GetMapping(value = "/{id}")
   public OwnerDto getOwnerById(@PathVariable @NotNull Long id) {
     List<OwnerDto> ownerDtos = ownerService.findByIds(Collections.singletonList(id));
     if (ownerDtos.isEmpty()) {
       throw new NotFoundException(ErrorCode.OWNER_NOT_FOUND, "Owner not found");
     }
     return ownerDtos.get(0);
+  }
+
+  @PostMapping
+  public List<OwnerDto> createOwners(@Valid @RequestBody OwnerDtoList ownerDtos) {
+    return ownerService.createOwners(ownerDtos.getOwners());
   }
 
   @DeleteMapping("/{id}")

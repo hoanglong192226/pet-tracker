@@ -7,6 +7,6 @@ spring:
     locations: classpath:db/migration
     baselineOnMigrate: true
 
-server:
-  servlet:
-    context-path: /api/v1
+springdoc:
+  api-docs:
+    enabled: false

@@ -3,11 +3,13 @@ package com.pet.management.tracker.exception;
 import com.pet.management.tracker.util.ErrorCode;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -29,6 +31,7 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler({Exception.class, ApplicationException.class})
   public ResponseEntity<ResponseObject> handleException(Exception exception) {
+    log.info(exception.getMessage(), exception);
     String errorMessage = "Server Error";
     String errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
     HttpStatus statusCode = HttpStatus.INTERNAL_SERVER_ERROR;

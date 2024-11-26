@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,8 @@ public class OwnerServiceImpl implements OwnerService {
   }
 
   @Override
+  @Transactional
   public void deleteOwner(Long id) {
-    ownerRepository.deleteById(id);
+    ownerRepository.deleteIfExist(id);
   }
 }
