@@ -39,6 +39,7 @@ public class OwnerServiceImpl implements OwnerService {
   }
 
   @Override
+  @Transactional
   public void deleteOwner(Long id) {
     ownerRepository.deleteIfExist(id);
   }

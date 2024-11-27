@@ -7,8 +7,9 @@ import com.pet.management.tracker.util.ErrorCode;
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
-public enum PetType {
-  DOG("dog");
+public enum UserRole {
+  ADMIN("admin"),
+  MEMBER("member");
 
   private final String value;
 
@@ -18,12 +19,12 @@ public enum PetType {
   }
 
   @JsonCreator
-  public static PetType fromValue(String value) {
-    for (PetType type : PetType.values()) {
+  public static UserRole fromValue(String value) {
+    for (UserRole type : UserRole.values()) {
       if (type.value.equalsIgnoreCase(value)) {
         return type;
       }
     }
-    throw new ApplicationException(ErrorCode.INVALID_PET_TYPE, "Invalid pet type: " + value);
+    throw new ApplicationException(ErrorCode.INVALID_USER_ROLE, "Invalid user role: " + value);
   }
 }
