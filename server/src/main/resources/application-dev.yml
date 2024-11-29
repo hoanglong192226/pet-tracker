@@ -10,3 +10,7 @@ springdoc:
     enabled: true
   swagger-ui:
     enabled: true
+
+jwt:
+  secret: cGV0LXRyYWNrZXItbWFuYWdlbWVudC1zZWN1cmUta2V5LWRldg==
+  expired-time: 3600000

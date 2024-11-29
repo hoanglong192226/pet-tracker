@@ -16,7 +16,7 @@ public class UserConverter implements DtoConverter<User, UserDto> {
 
   @Override
   public User fromDto(UserDto viewModel) {
-    return new User(viewModel.getId(), viewModel.getUsername(), viewModel.getPassword(),
+    return new User(viewModel.getId(), viewModel.getUsername(), null,
         viewModel.getRole().getValue());
   }
 }
