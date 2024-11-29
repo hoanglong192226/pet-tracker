@@ -1,10 +1,11 @@
 package com.pet.management.tracker.filter;
 
+import com.pet.management.tracker.util.CookiesUtil;
 import com.pet.management.tracker.util.JwtUtil;
-import io.jsonwebtoken.Claims;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
@@ -27,24 +28,38 @@ public class JwtFilter extends OncePerRequestFilter {
   @Override
   protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
       throws ServletException, IOException {
-
-    final String authHeader = request.getHeader("Authorization");
     String token = null;
-
-    String username = null;
-    if (authHeader != null && authHeader.startsWith("Bearer ")) {
-      token = authHeader.substring(7);
-      Claims claims = jwtUtil.extractClaims(token);
-      username = claims.getSubject();
+    for (Cookie cookie : request.getCookies()) {
+      if (CookiesUtil.TOKEN_COOKIE.equals(cookie.getName())) {
+        token = cookie.getValue();
+      }
     }
 
-    if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-      UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-      if (jwtUtil.validateToken(token, userDetails)) {
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
-            userDetails.getAuthorities());
-        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+    if (token != null) {
+      if (jwtUtil.isTokenExpired(token)) {
+        SecurityContextHolder.clearContext();
+
+        Cookie expiredCookie = new Cookie(CookiesUtil.TOKEN_COOKIE, null);
+        expiredCookie.setHttpOnly(true);
+        expiredCookie.setSecure(true);
+        expiredCookie.setPath("/");
+        expiredCookie.setMaxAge(0);
+        response.addCookie(expiredCookie);
+
+        filterChain.doFilter(request, response);
+        return;
+      }
+
+      if (SecurityContextHolder.getContext().getAuthentication() == null) {
+        String username = jwtUtil.extractClaims(token).getSubject();
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        if (username.equals(userDetails.getUsername())) {
+          UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
+              null,
+              userDetails.getAuthorities());
+          authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+          SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
       }
     }
 

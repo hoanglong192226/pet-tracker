@@ -1,6 +1,7 @@
 package com.pet.management.tracker.util;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Jwts.SIG;
 import io.jsonwebtoken.io.Decoders;
@@ -51,12 +52,12 @@ public class JwtUtil {
     return createToken(claims, username);
   }
 
-  private Boolean isTokenExpired(String token) {
-    return extractClaims(token).getExpiration().before(new Date());
-  }
-
-  public Boolean validateToken(String token, UserDetails userDetails) {
-    Claims claims = extractClaims(token);
-    return (claims.getSubject().equals(userDetails.getUsername()) && !isTokenExpired(token));
+  public Boolean isTokenExpired(String token) {
+    try {
+      extractClaims(token);
+      return false;
+    } catch (ExpiredJwtException e) {
+      return true;
+    }
   }
 }
