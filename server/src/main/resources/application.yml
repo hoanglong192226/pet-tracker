@@ -2,6 +2,9 @@ spring:
   application:
     name: tracker
 
+  datasource:
+    driver-class-name: org.postgresql.Driver
+
   flyway:
     enabled: true
     locations: classpath:db/migration
@@ -10,3 +13,8 @@ spring:
 springdoc:
   api-docs:
     enabled: false
+  swagger-ui:
+    enabled: false
+
+jwt:
+  expired-time: 3600000

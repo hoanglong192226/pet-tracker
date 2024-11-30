@@ -1,9 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/pet_tracker
+    url: jdbc:postgresql://localhost:5431/pet_tracker
     username: postgres
     password: pHrJvh4ICt2Fh7Qu
-    driver-class-name: org.postgresql.Driver
 
 springdoc:
   api-docs:
@@ -13,4 +12,3 @@ springdoc:
 
 jwt:
   secret: cGV0LXRyYWNrZXItbWFuYWdlbWVudC1zZWN1cmUta2V5LWRldg==
-  expired-time: 3600000

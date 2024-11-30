@@ -8,8 +8,8 @@
 		<version>2.7.17</version>
 		<relativePath/>
 	</parent>
-	<groupId>com.pet.management</groupId>
-	<artifactId>tracker</artifactId>
+	<groupId>pet-tracker</groupId>
+	<artifactId>server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>tracker</name>
 	<description>Pet-tracker management</description>

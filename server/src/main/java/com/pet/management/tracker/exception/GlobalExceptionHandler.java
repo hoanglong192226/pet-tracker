@@ -57,7 +57,9 @@ public class GlobalExceptionHandler {
 
   @ExceptionHandler({Exception.class, ApplicationException.class})
   public ResponseEntity<ResponseObject> handleException(Exception exception) {
-    log.info(exception.getMessage(), exception);
+    if (!(exception instanceof ApplicationException)) {
+      log.info(exception.getMessage(), exception);
+    }
     String errorMessage = "Server Error";
     String errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
     HttpStatus statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
