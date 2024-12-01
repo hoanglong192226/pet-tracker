@@ -11,6 +11,7 @@ import com.pet.management.tracker.util.ErrorCode;
 import com.pet.management.tracker.util.JwtUtil;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.server.Cookie.SameSite;
 import org.springframework.http.HttpHeaders;
@@ -31,6 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@Slf4j
 public class AuthController {
 
   private final AuthenticationManager authenticationManager;
@@ -49,6 +51,7 @@ public class AuthController {
           .sameSite(SameSite.STRICT.attributeValue()).path("/")
           .maxAge(CookiesUtil.TOKEN_COOKIE_MAX_AGE).build();
 
+      log.info("Auth login user {} successfully", authRequest.getUsername());
       return ResponseEntity.ok()
           .header(HttpHeaders.SET_COOKIE, cookie.toString())
           .body(token);

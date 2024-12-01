@@ -56,7 +56,7 @@ public class JwtUtil {
     try {
       extractClaims(token);
       return false;
-    } catch (ExpiredJwtException e) {
+    } catch (Exception e) {
       return true;
     }
   }

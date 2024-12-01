@@ -17,6 +17,8 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: pHrJvh4ICt2Fh7Qu
       JWT_SECRET: cGV0LXRyYWNrZXItbWFuYWdlbWVudC1zZWN1cmUta2V5LXByb2Q=
+      LOGSTASH_HOST: logstash:5044
+      SPRING_PROFILES_ACTIVE: prod
     depends_on:
       - db
       - elasticsearch

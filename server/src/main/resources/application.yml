@@ -1,20 +1,15 @@
 spring:
-  application:
-    name: tracker
-
   datasource:
-    driver-class-name: org.postgresql.Driver
-
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
-    baselineOnMigrate: true
+    url: jdbc:postgresql://localhost:5431/pet_tracker
+    username: postgres
+    password: pHrJvh4ICt2Fh7Qu
 
 springdoc:
   api-docs:
-    enabled: false
+    enabled: true
   swagger-ui:
-    enabled: false
+    enabled: true
 
 jwt:
+  secret: cGV0LXRyYWNrZXItbWFuYWdlbWVudC1zZWN1cmUta2V5LWRldg==
   expired-time: 3600000

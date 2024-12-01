@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: pet-tracker
+
+  datasource:
+    driver-class-name: org.postgresql.Driver
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baselineOnMigrate: true
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false
+
+jwt:
+  secret: cGV0LXRyYWNrZXItbWFuYWdlbWVudC1zZWN1cmUta2V5LXByb2Q=
