@@ -37,7 +37,7 @@ public class PetConverter implements DtoConverter<Pet, PetDto> {
     }
 
     return new Pet(petDto.getId(), petDto.getName(), petDto.getAge(), petDto.getWeight(),
-        petDto.getType().toString(), petDto.getMedicalNote(), owner);
+        petDto.getType().getValue(), petDto.getMedicalNote(), owner);
 
   }
 }
