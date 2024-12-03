@@ -62,7 +62,6 @@ public class OwnerControllerTest {
   @WithMockUser
   public void testCreateOwners_thenReturnSuccessList() throws Exception {
     when(ownerService.createOwners(any())).thenReturn(new ArrayList<>());
-    OwnerDto ownerDto = OwnerDto.builder().phone("phone").name("name").build();
     mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/owners").content("\n"
             + "  {\n"
             + "    \"owners\": [\n"
