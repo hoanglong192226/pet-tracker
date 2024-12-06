@@ -41,6 +41,7 @@ public class AuthController {
   @PostMapping("/login")
   public ResponseEntity<String> login(@RequestBody @Valid AuthRequest authRequest) {
     try {
+      SecurityContextHolder.clearContext();
       Authentication authentication = authenticationManager.authenticate(
           new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 

@@ -1,5 +1,6 @@
 package com.pet.management.tracker.validator.Impl;
 
+import com.pet.management.tracker.exception.BadRequestException;
 import com.pet.management.tracker.model.dto.OwnerDto;
 import com.pet.management.tracker.model.dto.PetDto;
 import com.pet.management.tracker.service.OwnerService;
@@ -30,7 +31,7 @@ public class PetValidatorImpl implements PetValidator {
     for (PetDto petDto : petDtos) {
       var ownerDto = ownerKeyToValue.get(petDto.getOwnerId());
       if (petDto.getOwnerId() != null && ownerDto == null) {
-        throw new RuntimeException("Owner not exist");
+        throw new BadRequestException("Owner not exist");
       }
     }
 

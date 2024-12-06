@@ -8,9 +8,12 @@ import com.pet.management.tracker.validator.UserValidator;
 import java.util.Collections;
 import java.util.List;
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +34,7 @@ public class AdminController {
 
   @PostMapping("/users")
   public UserDto createUser(@Valid @RequestBody UserDto userDto) {
-    userValidator.validateUserExist(userDto);
+    userValidator.validateCreateUser(userDto);
 
     List<UserDto> results = userService.createUsers(Collections.singletonList(userDto));
     if (results.isEmpty()) {
@@ -39,5 +42,12 @@ public class AdminController {
     }
 
     return results.get(0);
+  }
+
+  @DeleteMapping("/users/{id}")
+  public void deleteOwner(@PathVariable @NotNull Long id) {
+    userValidator.validateDeleteUser(id);
+
+    userService.deleteUser(id);
   }
 }

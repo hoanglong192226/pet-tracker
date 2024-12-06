@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +19,7 @@ public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
   private final UserConverter userConverter;
+  private  final PasswordEncoder passwordEncoder;
 
   @Override
   public List<UserDto> findAll() {
@@ -27,6 +29,9 @@ public class UserServiceImpl implements UserService {
   @Override
   public List<UserDto> createUsers(List<UserDto> userDtos) {
     List<User> users = userDtos.stream().map(userConverter::fromDto).collect(Collectors.toList());
+    users.forEach((user -> {
+      user.setPassword(passwordEncoder.encode(user.getPassword()));
+    }));
     List<User> savedUsers = userRepository.saveAll(users);
 
     return savedUsers.stream().map(userConverter::toDto).collect(Collectors.toList());

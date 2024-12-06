@@ -25,7 +25,7 @@ import java.util.List;
 public class Owner extends BaseEntity implements Serializable {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
   private String name;
   private String phone;

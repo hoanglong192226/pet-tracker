@@ -3,6 +3,7 @@ spring:
     url: jdbc:postgresql://localhost:5431/pet_tracker
     username: postgres
     password: pHrJvh4ICt2Fh7Qu
+    driver-class-name: org.postgresql.Driver
 
 springdoc:
   api-docs:

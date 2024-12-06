@@ -15,4 +15,6 @@ public class ErrorCode {
 
   public static final String UNAUTHENTICATED = "unauthenticated";
   public static final String INTERNAL_SERVER_ERROR = "internalServerError";
+
+  public static final String UNSUPPORTED_OPERATION = "unsupportedOperation";
 }
