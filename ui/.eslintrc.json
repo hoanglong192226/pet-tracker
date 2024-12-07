@@ -1,0 +1,38 @@
+{
+  "extends": [
+    "next",
+    "next/core-web-vitals",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint",
+    "prettier"
+  ],
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "tabWidth": 2,
+        "useTabs": false,
+        "printWidth": 140,
+        "endOfLine": "auto"
+      }
+    ],
+    "no-empty-function": 0,
+    "padding-line-between-statements": [
+      2,
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "return"
+      }
+    ],
+    "no-constant-condition": 0,
+    "unused-imports/no-unused-imports": 0,
+    "turbo/no-undeclared-env-vars": 0,
+    "curly": 2,
+    "@typescript-eslint/no-unused-vars": 0
+  }
+}
