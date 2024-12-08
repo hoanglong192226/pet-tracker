@@ -6,6 +6,7 @@ import static com.pet.management.tracker.util.ErrorCode.UNAUTHENTICATED;
 import com.pet.management.tracker.exception.NotFoundException;
 import com.pet.management.tracker.exception.UnauthenticatedException;
 import com.pet.management.tracker.model.dto.AuthRequest;
+import com.pet.management.tracker.model.dto.ProfileDto;
 import com.pet.management.tracker.util.CookiesUtil;
 import com.pet.management.tracker.util.ErrorCode;
 import com.pet.management.tracker.util.JwtUtil;
@@ -24,6 +25,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,5 +76,20 @@ public class AuthController {
         .build();
 
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, clearCookie.toString()).body("");
+  }
+
+  @GetMapping("/profile")
+  public ProfileDto getLoginUserProfile(@CookieValue(name = CookiesUtil.TOKEN_COOKIE) String token) {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication == null) {
+      throw new UnauthenticatedException(UNAUTHENTICATED, "User not login");
+    }
+    long expiredAt = jwtUtil.extractClaims(token).getExpiration().getTime();
+
+    User user = (User) authentication.getPrincipal();
+
+    return ProfileDto.builder().username(user.getUsername())
+        .role(user.getAuthorities().iterator().next().getAuthority()).expiredAt(expiredAt).build();
+
   }
 }
