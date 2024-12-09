@@ -16,6 +16,9 @@ const fetcher = async <T>(url: string, config?: AxiosRequestConfig) => {
         errorMessage: error.message,
       };
     }
+
+    console.error(error);
+    throw { message: "Internal Server Error" };
   }
 };
 

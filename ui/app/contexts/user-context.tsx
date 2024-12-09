@@ -25,7 +25,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   useEffect(() => {
     if (!user && !pathName.startsWith("/login", 0)) {
       getUser().then((s) => {
-        if (!s) {
+        if (s) {
           setUser(s);
         }
       });
