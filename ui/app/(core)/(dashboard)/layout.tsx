@@ -1,4 +1,4 @@
-const MemberLayout = ({ children }: { children: React.ReactNode }) => {
+const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex flex-col">
       <div>Title</div>
@@ -7,4 +7,4 @@ const MemberLayout = ({ children }: { children: React.ReactNode }) => {
   );
 };
 
-export default MemberLayout;
+export default DashboardLayout;

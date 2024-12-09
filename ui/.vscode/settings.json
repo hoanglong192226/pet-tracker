@@ -4,6 +4,10 @@
         "source.fixAll.eslint": "always",
     },
     "prettier.configPath": "../ui/.eslintrc.json",
-    "eslint.validate": ["javascript", "typescript"],
+    "eslint.validate": [
+        "javascript",
+        "typescript"
+    ],
     "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "typescript.preferences.importModuleSpecifier": "non-relative",
 }

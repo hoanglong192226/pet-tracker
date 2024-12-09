@@ -27,8 +27,11 @@
       "@/components/*": [
         "components/*"
       ],
-      "@/lib/*": [
-        "lib/*"
+      "@/libs/*": [
+        "libs/*"
+      ],
+      "@/contexts/*": [
+        "contextx/*"
       ]
     }
   },
