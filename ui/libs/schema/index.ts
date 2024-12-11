@@ -1,10 +1,18 @@
-export type FormState =
+export interface LoginFormState {
+  username: string[];
+  password: string[];
+}
+
+export interface SubmitOwnerFormState {
+  name: string[];
+  phone: string[];
+}
+
+export type FormState<T, V> =
   | {
       isSuccess?: boolean;
-      errors?: {
-        username?: string[];
-        password?: string[];
-      };
+      errors?: Partial<T>;
       message?: string;
+      data?: V;
     }
   | undefined;

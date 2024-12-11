@@ -24,8 +24,8 @@ export async function middleware(request: NextRequest) {
 
   const requestCookies = await cookies();
 
+  const userProfileCookies = CookiesUtil.COOKIES_PREFIX + USER_PROFILE_COOKIE;
   try {
-    const userProfileCookies = CookiesUtil.COOKIES_PREFIX + USER_PROFILE_COOKIE;
     const cookie = request.cookies.get(userProfileCookies)?.value;
 
     if (!cookie) {
@@ -49,8 +49,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   } catch (e) {
     console.error(e);
+    requestCookies.delete("token");
+    requestCookies.delete(userProfileCookies);
 
-    return NextResponse.json("UNAUTHENTICATED", { status: 401 });
+    return NextResponse.redirect(new URL("/login", request.url));
   }
 }
 export const config = {

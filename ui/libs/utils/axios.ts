@@ -10,7 +10,10 @@ const fetcher = async <T>(url: string, config?: AxiosRequestConfig) => {
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
       if (error.response.data) {
-        throw error.response.data;
+        throw {
+          errorCode: error.response.data.errorCode,
+          errorMessage: error.response.data.errorMessage,
+        };
       }
       throw {
         errorMessage: error.message,
@@ -18,7 +21,7 @@ const fetcher = async <T>(url: string, config?: AxiosRequestConfig) => {
     }
 
     console.error(error);
-    throw { message: "Internal Server Error" };
+    throw { errorMessage: "Internal Server Error" };
   }
 };
 

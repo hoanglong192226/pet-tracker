@@ -12,7 +12,7 @@ interface InputProps {
 
 const Input = ({ type, name, classNames, defaultValue, errors, required, value }: InputProps) => {
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col grow">
       <input
         type={type}
         name={name}

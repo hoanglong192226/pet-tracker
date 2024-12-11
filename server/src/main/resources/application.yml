@@ -13,4 +13,4 @@ springdoc:
 
 jwt:
   secret: cGV0LXRyYWNrZXItbWFuYWdlbWVudC1zZWN1cmUta2V5LWRldg==
-  expired-time: 3600000
+  expired-time: 604800000

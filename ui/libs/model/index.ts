@@ -3,3 +3,9 @@ export interface UserProfle {
   role: string;
   expiredAt: number;
 }
+
+export interface Owner {
+  id: number;
+  name: string;
+  phone: string;
+}

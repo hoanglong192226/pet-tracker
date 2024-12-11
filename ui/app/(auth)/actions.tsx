@@ -1,10 +1,10 @@
 "use client";
 
-import { FormState } from "@/libs/schema";
+import { FormState, LoginFormState } from "@/libs/schema";
 import { LoginPostRequest, LoginPostRequestSchema } from "@/libs/schema/zod-schema";
 import fetcher from "@/libs/utils/axios";
 
-export const login = async (state: FormState, formData: FormData) => {
+export const login = async (state: FormState<LoginFormState, LoginPostRequestSchema>, formData: FormData) => {
   const data = Object.fromEntries(formData);
   const validatedFields = LoginPostRequest.safeParse(data);
 

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.io.Serializable;
 import java.util.List;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.ToString;
@@ -18,7 +19,10 @@ import lombok.ToString;
 public class OwnerDto implements Serializable {
   private Long id;
   @NotNull
+  @Size(min = 2, max = 20, message = "Name must be between 2 and 20 characters")
   private String name;
+  @NotNull
+  @Size(min = 9, max = 20, message = "Phone must be between 10 and 20 characters")
   private String phone;
 
   @JsonProperty(access = Access.READ_ONLY)

@@ -38,7 +38,7 @@ const MainMenu = () => {
           >
             <li>
               <Link
-                href="/owners"
+                href="/owners/list"
                 className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
                 aria-current="page"
               >
@@ -47,7 +47,7 @@ const MainMenu = () => {
             </li>
             <li>
               <Link
-                href="/pets"
+                href="/pets/list"
                 className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
               >
                 Pets
@@ -60,31 +60,6 @@ const MainMenu = () => {
         </div>
       </div>
     </nav>
-    // <Navbar classNameName="border-b shadow">
-    //   <NavbarBrand>
-    //     <Link href={"/"}>
-    //       <div classNameName="flex items-center">
-    //         <Image src={AppLogo} alt="app_logo" width={32} height={32} />
-    //         <div classNameName="font-bold text-inherit ml-2">PET TRACKER</div>
-    //       </div>
-    //     </Link>
-    //   </NavbarBrand>
-    //   <NavbarContent classNameName="hidden sm:flex gap-4" justify="center">
-    //     <NavbarItem>
-    //       <Link color="foreground" href="/owners">
-    //         Owners
-    //       </Link>
-    //     </NavbarItem>
-    //     <NavbarItem isActive>
-    //       <Link aria-current="page" href="/pets">
-    //         Pets
-    //       </Link>
-    //     </NavbarItem>
-    //     <NavbarItem classNameName="ml-10">
-    //       <User />
-    //     </NavbarItem>
-    //   </NavbarContent>
-    // </Navbar>
   );
 };
 
