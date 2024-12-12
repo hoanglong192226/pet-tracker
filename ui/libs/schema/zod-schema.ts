@@ -8,6 +8,7 @@ export const LoginPostRequest = z.object({
 export type LoginPostRequestSchema = z.infer<typeof LoginPostRequest>;
 
 export const SubmitOwnerPostRequest = z.object({
+  id: z.coerce.number().int().optional(),
   name: z.string().trim().min(2).max(20),
   phone: z.string().trim().min(9).max(20),
 });

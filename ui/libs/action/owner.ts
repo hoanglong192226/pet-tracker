@@ -16,11 +16,11 @@ export const getOwners = async (): Promise<Owner[]> => {
 
     return owners;
   } catch (e) {
-    throw new Error(JSON.stringify(e));
+    return [];
   }
 };
 
-export const getOwner = async (id: string): Promise<Owner> => {
+export const getOwner = async (id: string): Promise<Owner | undefined> => {
   const requestCookies = await cookies();
 
   try {
@@ -31,6 +31,21 @@ export const getOwner = async (id: string): Promise<Owner> => {
     });
 
     return owner;
+  } catch (e) {
+    return undefined;
+  }
+};
+
+export const deleteOwner = async (id: string) => {
+  const requestCookies = await cookies();
+
+  try {
+    await fetcher<Owner>(`/owners/${encodeURI(id)}`, {
+      headers: {
+        Cookie: requestCookies.toString(),
+      },
+      method: "DELETE",
+    });
   } catch (e) {
     throw new Error(JSON.stringify(e));
   }
