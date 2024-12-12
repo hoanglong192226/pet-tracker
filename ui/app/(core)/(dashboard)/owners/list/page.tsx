@@ -1,13 +1,15 @@
 "use client";
 
+import AddButton from "@/components/AddButton";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
 import Modal from "@/components/Modal";
 import Table, { TableHeaderProps, TableRowProps } from "@/components/Table";
-import { getOwner, getOwners, deleteOwner as deleteOwnerAction } from "@/libs/action/owner";
+import { getOwners, deleteOwner as deleteOwnerAction } from "@/libs/action/owner";
 import { Owner } from "@/libs/model";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
 
 const HEADERS: TableHeaderProps[] = [
   {
@@ -28,6 +30,7 @@ const OwnerPage = () => {
   const [owners, setOwners] = useState<Owner[]>([]);
   const [deleteOwner, setDeleteOwner] = useState<Owner>();
   const [openModal, setOpenModal] = useState(false);
+  const [container, setContainer] = useState<HTMLElement>();
 
   const { push } = useRouter();
 
@@ -47,6 +50,18 @@ const OwnerPage = () => {
       await fetchOwners();
     }
   };
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return;
+    }
+    const pageContainer = window.document.getElementById("corePageContainer");
+    if (pageContainer) {
+      setContainer(pageContainer);
+    } else {
+      setContainer(window.document.body);
+    }
+  }, []);
 
   const fetchOwners = useCallback(async () => {
     const ownersData = await getOwners();
@@ -96,6 +111,13 @@ const OwnerPage = () => {
         title={`Delete ${deleteOwner?.name}`}
         body={`Are you sure to delete Owner ${deleteOwner?.name}`}
       />
+      {container &&
+        createPortal(
+          <div className="absolute bottom-10 right-10">
+            <AddButton onClick={() => push("/owners")} />
+          </div>,
+          container,
+        )}
     </Card>
   );
 };
