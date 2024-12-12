@@ -6,9 +6,11 @@ import AppLogo from "../../public/logo.svg";
 import User from "./user";
 import { useState } from "react";
 import { twMerge } from "tailwind-merge";
+import { usePathname } from "next/navigation";
 
 const MainMenu = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const path = usePathname();
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 shadow">
@@ -39,8 +41,10 @@ const MainMenu = () => {
             <li>
               <Link
                 href="/owners/list"
-                className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
-                aria-current="page"
+                className={twMerge(
+                  "block py-2 px-3 rounded  md:p-0",
+                  path.startsWith("/owners/list", 0) && "text-white bg-blue-700 md:bg-transparent md:text-blue-700",
+                )}
               >
                 Owners
               </Link>
@@ -48,7 +52,10 @@ const MainMenu = () => {
             <li>
               <Link
                 href="/pets/list"
-                className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                className={twMerge(
+                  "block py-2 px-3 rounded  md:p-0",
+                  path.startsWith("/pets/list", 0) && "text-white bg-blue-700 md:bg-transparent md:text-blue-700",
+                )}
               >
                 Pets
               </Link>

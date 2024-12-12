@@ -18,7 +18,7 @@ export interface Pet {
   weight: number;
   type: string;
   medicalNote: string;
-  owner: Owner;
+  owner?: Owner;
 }
 
 export interface ServerResponse<T> {

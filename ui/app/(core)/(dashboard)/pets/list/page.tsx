@@ -7,8 +7,8 @@ import withToast from "@/components/HOCs/withToast";
 import Modal from "@/components/Modal";
 import Table, { TableHeaderProps, TableRowProps } from "@/components/Table";
 import { ToastProps } from "@/components/Toast";
-import { getOwners, deleteOwner as deleteOwnerAction } from "@/libs/action/owner";
-import { Owner } from "@/libs/model";
+import { getPets } from "@/libs/action/pet";
+import { Pet } from "@/libs/model";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -20,36 +20,48 @@ const HEADERS: TableHeaderProps[] = [
     name: "Name",
   },
   {
-    id: "phone",
-    name: "Phone",
+    id: "age",
+    name: "Age",
   },
   {
-    id: "pets",
-    name: "Pets",
+    id: "weight",
+    name: "Weight",
+  },
+  {
+    id: "type",
+    name: "Type",
+  },
+  {
+    id: "medicalNote",
+    name: "Medical Note",
+  },
+  {
+    id: "ownerName",
+    name: "Owner",
   },
 ];
 
-const OwnerPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
-  const [owners, setOwners] = useState<Owner[]>();
-  const [deleteOwner, setDeleteOwner] = useState<Owner>();
+const PetPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
+  const [pets, setPets] = useState<Pet[]>();
+  const [deletePet, setDeletePet] = useState<Pet>();
   const [openModal, setOpenModal] = useState(false);
   const [container, setContainer] = useState<HTMLElement>();
 
   const { push } = useRouter();
 
   const handleEdit = (id: number) => {
-    push(`/owners?id=${id}`);
+    push(`/pets?id=${id}`);
   };
 
   const handleOpenDeleteModal = (id: number) => {
-    const ownerToDelete = owners?.find((s) => s.id === id);
-    setDeleteOwner(ownerToDelete);
+    const petToDelete = pets?.find((s) => s.id === id);
+    setDeletePet(petToDelete);
     setOpenModal(true);
   };
 
   const handleDelete = async () => {
-    if (deleteOwner) {
-      await deleteOwnerAction(String(deleteOwner.id));
+    if (deletePet) {
+      //   await deleteOwnerAction(String(deleteOwner.id));
       await fetchOwners();
     }
   };
@@ -67,9 +79,9 @@ const OwnerPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => 
   }, []);
 
   const fetchOwners = useCallback(async () => {
-    const { data, isSuccess, error } = await getOwners();
+    const { data, isSuccess, error } = await getPets();
     if (isSuccess) {
-      setOwners(data);
+      setPets(data);
     } else {
       setToast({
         message: error,
@@ -83,49 +95,43 @@ const OwnerPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => 
   }, []);
 
   const ownerRows: TableRowProps[] = useMemo(() => {
-    return (owners || []).map((owner) => ({
-      id: String(owner.id),
+    return (pets || []).map((pet) => ({
+      id: String(pet.id),
       data: {
-        ...owner,
-        pets: (
-          <div className="flex flex-wrap">
-            {owner.pets.map((s) => (
-              <Link
-                href={`/pets?id=${s.id}`}
-                key={s.id}
-                className="max-w-max max-h-max relative bg-blue-100 text-blue-800 text-sm font-medium me-2 px-3 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-              >
-                {s.name}
-              </Link>
-            ))}
-          </div>
+        ...pet,
+        ownerName: pet.owner?.name ? (
+          <Link href={`/owners?id=${pet.owner.id}`} className="text-blue-500">
+            {pet.owner.name}
+          </Link>
+        ) : (
+          <></>
         ),
       },
       actions: [
-        <Button key={"edit"} onClick={() => handleEdit(owner.id)}>
+        <Button key={"edit"} onClick={() => handleEdit(pet.id)}>
           Edit
         </Button>,
-        <Button key={"delete"} onClick={() => handleOpenDeleteModal(owner.id)} classNames="from-red-400 via-red-500 to-red-600">
+        <Button key={"delete"} onClick={() => handleOpenDeleteModal(pet.id)} classNames="from-red-400 via-red-500 to-red-600">
           Delete
         </Button>,
       ],
     }));
-  }, [owners]);
+  }, [pets]);
 
   return (
-    <Card header="Owner">
+    <Card header="Pet">
       <Table headers={HEADERS} rows={ownerRows} />
       <Modal
         open={openModal}
         onConfirm={handleDelete}
         onClose={() => setOpenModal(false)}
-        title={`Delete ${deleteOwner?.name}`}
-        body={`Are you sure to delete Owner ${deleteOwner?.name}`}
+        title={`Delete ${deletePet?.name}`}
+        body={`Are you sure to delete Pet ${deletePet?.name}`}
       />
       {container &&
         createPortal(
           <div className="fixed bottom-10 right-10">
-            <AddButton onClick={() => push("/owners")} />
+            <AddButton onClick={() => push("/pets")} />
           </div>,
           container,
         )}
@@ -133,6 +139,6 @@ const OwnerPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => 
   );
 };
 
-const OwnerPageWithToast = withToast(OwnerPage);
+const PetPageWithToast = withToast(PetPage);
 
-export default OwnerPageWithToast;
+export default PetPageWithToast;
