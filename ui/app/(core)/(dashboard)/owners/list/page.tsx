@@ -3,8 +3,10 @@
 import AddButton from "@/components/AddButton";
 import Button from "@/components/Button";
 import Card from "@/components/Card";
+import withToast from "@/components/HOCs/withToast";
 import Modal from "@/components/Modal";
 import Table, { TableHeaderProps, TableRowProps } from "@/components/Table";
+import { ToastProps } from "@/components/Toast";
 import { getOwners, deleteOwner as deleteOwnerAction } from "@/libs/action/owner";
 import { Owner } from "@/libs/model";
 import { useRouter } from "next/navigation";
@@ -26,8 +28,8 @@ const HEADERS: TableHeaderProps[] = [
   },
 ];
 
-const OwnerPage = () => {
-  const [owners, setOwners] = useState<Owner[]>([]);
+const OwnerPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
+  const [owners, setOwners] = useState<Owner[]>();
   const [deleteOwner, setDeleteOwner] = useState<Owner>();
   const [openModal, setOpenModal] = useState(false);
   const [container, setContainer] = useState<HTMLElement>();
@@ -39,7 +41,7 @@ const OwnerPage = () => {
   };
 
   const handleOpenDeleteModal = (id: number) => {
-    const ownerToDelete = owners.find((s) => s.id === id);
+    const ownerToDelete = owners?.find((s) => s.id === id);
     setDeleteOwner(ownerToDelete);
     setOpenModal(true);
   };
@@ -64,8 +66,15 @@ const OwnerPage = () => {
   }, []);
 
   const fetchOwners = useCallback(async () => {
-    const ownersData = await getOwners();
-    setOwners(ownersData);
+    const { data, isSuccess, error } = await getOwners();
+    if (isSuccess) {
+      setOwners(data);
+    } else {
+      setToast({
+        message: error,
+        open: true,
+      });
+    }
   }, []);
 
   useEffect(() => {
@@ -73,7 +82,7 @@ const OwnerPage = () => {
   }, []);
 
   const ownerRows: TableRowProps[] = useMemo(() => {
-    return owners.map((owner) => ({
+    return (owners || []).map((owner) => ({
       id: String(owner.id),
       data: {
         ...owner,
@@ -122,4 +131,6 @@ const OwnerPage = () => {
   );
 };
 
-export default OwnerPage;
+const OwnerPageWithToast = withToast(OwnerPage);
+
+export default OwnerPageWithToast;

@@ -5,9 +5,8 @@ import Card from "@/components/Card";
 import withToast from "@/components/HOCs/withToast";
 import Input from "@/components/Input";
 import { ToastProps } from "@/components/Toast";
-import { getOwner } from "@/libs/action/owner";
+import { getOwner, submitOwner } from "@/libs/action/owner";
 import { Owner, Pet } from "@/libs/model";
-import { submitOwner } from "app/(core)/(dashboard)/owners/actions";
 import { useRouter, useSearchParams } from "next/navigation";
 import { startTransition, useActionState, useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -52,13 +51,13 @@ const OwnerDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void 
   useEffect(() => {
     (async () => {
       if (id) {
-        const ownerData = await getOwner(id);
-        if (!ownerData) {
+        const { isSuccess, data } = await getOwner(id);
+        if (!isSuccess) {
           replace("/owners");
 
           return;
         }
-        setOwner(ownerData);
+        setOwner(data);
       }
     })();
   }, [id]);

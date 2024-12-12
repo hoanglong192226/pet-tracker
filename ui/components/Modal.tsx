@@ -27,7 +27,7 @@ const Modal = ({ title, body, open, onClose, onConfirm }: ModalProps) => {
       onClose();
     } catch (e: any) {
       const error = JSON.parse(e.message);
-      setError(error.errorMessage);
+      setError(error.message);
     } finally {
       setLoading(false);
     }

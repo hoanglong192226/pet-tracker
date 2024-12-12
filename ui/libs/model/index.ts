@@ -20,3 +20,9 @@ export interface Pet {
   medicalNote: string;
   owner: Owner;
 }
+
+export interface ServerResponse<T> {
+  isSuccess: boolean;
+  data?: T;
+  error?: string;
+}

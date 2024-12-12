@@ -26,7 +26,7 @@ export const login = async (state: FormState<LoginFormState, LoginPostRequestSch
   } catch (e: any) {
     return {
       data: data as LoginPostRequestSchema,
-      message: e.errorMessage as string,
+      message: e.message as string,
     };
   }
 };

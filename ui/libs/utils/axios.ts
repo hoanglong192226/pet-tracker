@@ -11,17 +11,17 @@ const fetcher = async <T>(url: string, config?: AxiosRequestConfig) => {
     if (axios.isAxiosError(error) && error.response) {
       if (error.response.data) {
         throw {
-          errorCode: error.response.data.errorCode,
-          errorMessage: error.response.data.errorMessage,
+          code: error.response.data.errorCode,
+          message: error.response.data.errorMessage,
         };
       }
       throw {
-        errorMessage: error.message,
+        message: error.message,
       };
     }
 
     console.error(error);
-    throw { errorMessage: "Internal Server Error" };
+    throw { message: "Internal Server Error" };
   }
 };
 
