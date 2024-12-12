@@ -4,13 +4,24 @@ import Image from "next/image";
 import Link from "next/link";
 import AppLogo from "../../public/logo.svg";
 import User from "./user";
-import { useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import { usePathname } from "next/navigation";
+import { MENU_ROUTE } from "@/libs/utils";
+import { UserContext } from "app/contexts/user-context";
+import { APP_ROLE, AppRoute } from "@/libs/model";
 
 const MainMenu = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const path = usePathname();
+  const { user } = useContext(UserContext);
+  const allowedRoutes: AppRoute[] = useMemo(() => {
+    if (!user) {
+      return [];
+    }
+
+    return MENU_ROUTE.filter((s) => s.role.includes(user.role as APP_ROLE));
+  }, [user]);
 
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 shadow">
@@ -38,28 +49,19 @@ const MainMenu = () => {
               "md:items-center items-end font-medium flex flex-col gap-3 p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700",
             )}
           >
-            <li>
-              <Link
-                href="/owners/list"
-                className={twMerge(
-                  "block py-2 px-3 rounded  md:p-0",
-                  path.startsWith("/owners/list", 0) && "text-white bg-blue-700 md:bg-transparent md:text-blue-700",
-                )}
-              >
-                Owners
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/pets/list"
-                className={twMerge(
-                  "block py-2 px-3 rounded  md:p-0",
-                  path.startsWith("/pets/list", 0) && "text-white bg-blue-700 md:bg-transparent md:text-blue-700",
-                )}
-              >
-                Pets
-              </Link>
-            </li>
+            {allowedRoutes.map((s) => (
+              <li key={s.id}>
+                <Link
+                  href={s.path}
+                  className={twMerge(
+                    "block py-2 px-3 rounded  md:p-0",
+                    path.startsWith(s.path, 0) && "text-white bg-blue-700 md:bg-transparent md:text-blue-700",
+                  )}
+                >
+                  {s.name}
+                </Link>
+              </li>
+            ))}
             <li>
               <User />
             </li>

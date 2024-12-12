@@ -1,6 +1,9 @@
 import { getUser } from "@/libs/action/user";
 import { UserProfle } from "@/libs/model";
-import { usePathname } from "next/navigation";
+import { USER_PROFILE_COOKIE } from "@/libs/utils";
+import CookiesUtil from "@/libs/utils/cookies";
+import { cookies } from "next/headers";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 
 interface UserContextProps {
@@ -21,6 +24,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
   const invalidateUser = () => {
     setUser(undefined);
   };
+  const reloadCookie = CookiesUtil.getCookie("reload");
 
   useEffect(() => {
     if (!user && !pathName.startsWith("/login", 0)) {
@@ -31,6 +35,13 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
       });
     }
   }, [pathName, user]);
+
+  useEffect(() => {
+    if (reloadCookie) {
+      CookiesUtil.eraseCookie("reload");
+      window.location.href = "/login";
+    }
+  }, [reloadCookie]);
 
   return <UserContext.Provider value={{ user, invalidateUser }}>{children}</UserContext.Provider>;
 };

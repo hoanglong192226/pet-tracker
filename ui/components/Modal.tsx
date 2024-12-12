@@ -26,6 +26,7 @@ const Modal = ({ title, body, open, onClose, onConfirm }: ModalProps) => {
       await onConfirm();
       onClose();
     } catch (e: any) {
+      console.log(e);
       const error = JSON.parse(e.message);
       setError(error.message);
     } finally {

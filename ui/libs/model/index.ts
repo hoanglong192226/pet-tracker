@@ -26,3 +26,12 @@ export interface ServerResponse<T> {
   data?: T;
   error?: string;
 }
+
+export type APP_ROLE = "ROLE_admin" | "ROLE_member";
+
+export interface AppRoute {
+  id: string;
+  name: string;
+  path: string;
+  role: APP_ROLE[];
+}

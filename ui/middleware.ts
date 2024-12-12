@@ -15,6 +15,11 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     }
 
+    (await cookies()).set({
+      name: CookiesUtil.COOKIES_PREFIX + "reload",
+      value: "true",
+    });
+
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
