@@ -93,7 +93,7 @@ const OwnerPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => 
               <Link
                 href={`/pets?id=${s.id}`}
                 key={s.id}
-                className="max-w-max max-h-max relative bg-blue-100 text-blue-800 text-sm font-medium me-2 px-3 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                className="max-w-max max-h-max relative bg-blue-100 text-blue-500 hover:text-blue-800 text-sm font-medium me-2 px-3 py-0.5 rounded"
               >
                 {s.name}
               </Link>

@@ -100,7 +100,7 @@ const PetPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
       data: {
         ...pet,
         ownerName: pet.owner?.name ? (
-          <Link href={`/owners?id=${pet.owner.id}`} className="text-blue-500">
+          <Link href={`/owners?id=${pet.owner.id}`} className="text-blue-500 hover:text-blue-800">
             {pet.owner.name}
           </Link>
         ) : (
