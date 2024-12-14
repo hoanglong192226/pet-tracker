@@ -5,6 +5,11 @@ spring:
     password: pHrJvh4ICt2Fh7Qu
     driver-class-name: org.postgresql.Driver
 
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+    baselineOnMigrate: true
+
 springdoc:
   api-docs:
     enabled: true

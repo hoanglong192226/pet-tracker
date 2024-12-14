@@ -37,12 +37,11 @@ public class SecurityConfig {
   }
 
   @Bean
-  public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.cors()
-        .and()
+  public SecurityFilterChain filterChain(HttpSecurity http, CorsConfigurationSource corsConfigurationSource) throws Exception {
+    http.cors(c -> c.configurationSource(corsConfigurationSource))
         .csrf().disable()
         .httpBasic().disable()
-        .authorizeRequests()
+        .authorizeHttpRequests()
         .antMatchers("/api/v1/admin/**").hasRole(UserRole.ADMIN.getValue())
         .antMatchers("/api/v1/pets/**").hasAnyRole(UserRole.ADMIN.getValue(), UserRole.MEMBER.getValue())
         .antMatchers("/api/v1/owners/**").hasAnyRole(UserRole.ADMIN.getValue(), UserRole.MEMBER.getValue())
@@ -56,6 +55,7 @@ public class SecurityConfig {
     CorsConfiguration configuration = new CorsConfiguration();
 
     configuration.addAllowedOrigin("http://localhost:3000");
+    configuration.addAllowedOrigin("http://ui:3000");
 
     configuration.addAllowedHeader("*");
 

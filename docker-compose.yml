@@ -1,15 +1,18 @@
 networks:
-  busroot:
+  pet-tracker:
     name: pet-tracker-network
     driver: bridge
 
 services:
   app-server:
     image: app-server:latest
+    hostname: app-server
     build:
       context: ./server
       dockerfile: Dockerfile
     restart: always
+    networks:
+      - pet-tracker
     ports:
       - "8080:8080"
     environment:
@@ -23,20 +26,40 @@ services:
       - db
       - elasticsearch
 
+  ui:
+    image: ui:latest
+    hostname: ui
+    build:
+      context: ./ui
+      dockerfile: Dockerfile
+    restart: always
+    networks:
+      - pet-tracker
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_SERVER_HOST: http://app-server:8080
+      JWT_SECRET: greentyre
+
   db:
     image: postgres:15-alpine
     container_name: postgres-db
+    networks:
+      - pet-tracker
     environment:
       POSTGRES_DB: pet_tracker
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: pHrJvh4ICt2Fh7Qu
     ports:
       - "5431:5432"
+    restart: always
     volumes:
       - db_data:/var/lib/postgresql/data
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.16.1
+    networks:
+      - pet-tracker
     environment:
       - discovery.type=single-node
       - http.host=0.0.0.0
@@ -45,11 +68,14 @@ services:
     volumes:
       - ./elk/data:/usr/share/elasticsearch/data
       - ./elk/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    restart: always
     ports:
       - "9200:9200"
 
   logstash:
     image: docker.elastic.co/logstash/logstash:8.16.1
+    networks:
+      - pet-tracker
     environment:
       - ELASTICSEARCH_HOSTS=["http://elasticsearch:9200"]
     ports:
@@ -57,17 +83,20 @@ services:
     volumes:
       - ./elk/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
       - ./elk/logstash.yml:/usr/share/logstash/config/logstash.yml
-
+    restart: always
     depends_on:
       - elasticsearch
   kibana:
     image: docker.elastic.co/kibana/kibana:8.16.1
+    networks:
+      - pet-tracker
     environment:
       - ELASTICSEARCH_HOSTS=["http://elasticsearch:9200"]
     volumes:
       - ./elk/kibana.yml:/usr/share/kibana/config/kibana.yml
     ports:
       - "5601:5601"
+    restart: always
     depends_on:
       - elasticsearch
 
