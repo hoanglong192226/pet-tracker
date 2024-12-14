@@ -14,3 +14,15 @@ export const SubmitOwnerPostRequest = z.object({
 });
 
 export type SubmitOwnerPostRequestSchema = z.infer<typeof SubmitOwnerPostRequest>;
+
+export const SubmitPetPostRequest = z.object({
+  id: z.coerce.number().int().optional(),
+  name: z.string().trim().min(2).max(20),
+  age: z.coerce.number().int().gt(0).optional(),
+  weight: z.coerce.number().gt(0).optional(),
+  type: z.string().trim(),
+  medicalNote: z.string().trim().optional(),
+  ownerId: z.coerce.number().int().optional(),
+});
+
+export type SubmitPetPostRequestSchema = z.infer<typeof SubmitPetPostRequest>;

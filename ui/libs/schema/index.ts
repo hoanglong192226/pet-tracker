@@ -8,6 +8,14 @@ export interface SubmitOwnerFormState {
   phone: string[];
 }
 
+export interface SubmitPetFormState {
+  name: string[];
+  age: string[];
+  weight: string[];
+  type: string[];
+  medicalNote: string[];
+}
+
 export type FormState<T, V> =
   | {
       isSuccess?: boolean;

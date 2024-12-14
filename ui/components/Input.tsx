@@ -8,12 +8,14 @@ interface InputProps {
   errors?: string[];
   required?: boolean;
   value?: any;
+  step?: number;
 }
 
-const Input = ({ type, name, classNames, defaultValue, errors, required, value }: InputProps) => {
+const Input = ({ type, name, classNames, defaultValue, errors, required, value, step }: InputProps) => {
   return (
     <div className="flex flex-col grow">
       <input
+        step={step}
         type={type}
         name={name}
         className={twMerge(

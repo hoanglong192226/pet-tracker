@@ -134,6 +134,6 @@ const OwnerDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void 
   );
 };
 
-const WithToastPage = withToast(OwnerDetailPage);
+const WithToastOwnerDetailPage = withToast(OwnerDetailPage);
 
-export default WithToastPage;
+export default WithToastOwnerDetailPage;
