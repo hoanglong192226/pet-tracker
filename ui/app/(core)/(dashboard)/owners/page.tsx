@@ -81,7 +81,7 @@ const OwnerDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void 
     <Card header={owner ? `Edit Owner: ${owner.name}` : "New Owner"}>
       <form className="max-w-md" onSubmit={handleSubmit}>
         <div className="flex z-0 w-full mb-5 group items-center gap-5">
-          <div className="block mb-2 font-medium text-gray-900 dark:text-white w-[4rem]">Name</div>
+          <div className="block mb-2 font-medium text-gray-900">Name</div>
           <Input
             type="text"
             name="name"
@@ -92,7 +92,7 @@ const OwnerDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void 
           />
         </div>
         <div className="flex z-0 w-full mb-5 group items-center gap-5">
-          <div className="block mb-2 font-medium text-gray-900 dark:text-white w-[4rem]">Phone</div>
+          <div className="block mb-2 font-medium text-gray-900">Phone</div>
           <Input
             type="text"
             name="phone"
@@ -104,16 +104,16 @@ const OwnerDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void 
         </div>
         {id && (
           <div className="flex z-0 w-full mb-5 group items-start gap-8">
-            <div className="block mb-2 font-medium text-gray-900 dark:text-white w-[4rem]">Pets</div>
+            <div className="block mb-2 font-medium text-gray-900 w-[4rem]">Pets</div>
             <div className={twMerge("flex flex-wrap gap-2 p-3 w-full border rounded min-h-[8rem]")}>
               {owner?.pets.map((s) => (
                 <span
                   key={s.id}
                   onClick={() => handleRemovePet(s.id)}
-                  className="max-w-max max-h-max relative bg-blue-100 text-blue-800 text-sm font-medium me-2 px-3 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
+                  className="max-w-max max-h-max relative bg-blue-100 text-blue-800 text-sm font-medium me-2 px-3 py-0.5 rounded"
                 >
                   {s.name}
-                  <div className="cursor-pointer absolute inline-flex items-center justify-center w-4 h-4 text-[0.5rem] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 dark:border-gray-900 hover:bg-red-700">
+                  <div className="cursor-pointer absolute inline-flex items-center justify-center w-4 h-4 text-[0.5rem] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2 -end-2 hover:bg-red-700">
                     X
                   </div>
                 </span>

@@ -46,6 +46,7 @@ const PetPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
   const [deletePet, setDeletePet] = useState<Pet>();
   const [openModal, setOpenModal] = useState(false);
   const [container, setContainer] = useState<HTMLElement>();
+  const [loading, setLoading] = useState(true);
 
   const { push } = useRouter();
 
@@ -79,6 +80,7 @@ const PetPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
   }, []);
 
   const fetchOwners = useCallback(async () => {
+    setLoading(true);
     const { data, isSuccess, error } = await getPets();
     if (isSuccess) {
       setPets(data);
@@ -88,10 +90,11 @@ const PetPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
         open: true,
       });
     }
+    setLoading(false);
   }, []);
 
   useEffect(() => {
-    fetchOwners();
+    fetchOwners().finally(() => setLoading(false));
   }, []);
 
   const ownerRows: TableRowProps[] = useMemo(() => {
@@ -119,7 +122,7 @@ const PetPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
   }, [pets]);
 
   return (
-    <Card header="Pet">
+    <Card header="Pet" loading={loading}>
       <Table headers={HEADERS} rows={ownerRows} />
       <Modal
         open={openModal}

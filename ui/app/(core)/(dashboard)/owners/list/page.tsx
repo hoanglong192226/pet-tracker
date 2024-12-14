@@ -34,6 +34,7 @@ const OwnerPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => 
   const [deleteOwner, setDeleteOwner] = useState<Owner>();
   const [openModal, setOpenModal] = useState(false);
   const [container, setContainer] = useState<HTMLElement>();
+  const [loading, setLoading] = useState(true);
 
   const { push } = useRouter();
 
@@ -67,6 +68,7 @@ const OwnerPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => 
   }, []);
 
   const fetchOwners = useCallback(async () => {
+    setLoading(true);
     const { data, isSuccess, error } = await getOwners();
     if (isSuccess) {
       setOwners(data);
@@ -76,10 +78,13 @@ const OwnerPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => 
         open: true,
       });
     }
+    setLoading(false);
   }, []);
 
   useEffect(() => {
-    fetchOwners();
+    fetchOwners().finally(() => {
+      setLoading(false);
+    });
   }, []);
 
   const ownerRows: TableRowProps[] = useMemo(() => {
@@ -113,7 +118,7 @@ const OwnerPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => 
   }, [owners]);
 
   return (
-    <Card header="Owner">
+    <Card header="Owner" loading={loading}>
       <Table headers={HEADERS} rows={ownerRows} />
       <Modal
         open={openModal}

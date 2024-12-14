@@ -113,7 +113,7 @@ const PetDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void })
     <Card header={pet ? `Edit Pet: ${pet.name}` : "New Pet"}>
       <form className="max-w-md" onSubmit={handleSubmit}>
         <div className="flex z-0 w-full mb-5 group items-center gap-5">
-          <div className="block mb-2 font-medium text-gray-900 dark:text-white w-[4rem]">Name</div>
+          <div className="block mb-2 font-medium text-gray-900 w-[4rem]">Name</div>
           <Input
             type="text"
             name="name"
@@ -124,7 +124,7 @@ const PetDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void })
           />
         </div>
         <div className="flex z-0 w-full mb-5 group items-center gap-5">
-          <div className="block mb-2 font-medium text-gray-900 dark:text-white w-[4rem]">Age</div>
+          <div className="block mb-2 font-medium text-gray-900 w-[4rem]">Age</div>
           <Input
             type="number"
             name="age"
@@ -134,7 +134,7 @@ const PetDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void })
           />
         </div>
         <div className="flex z-0 w-full mb-5 group items-center gap-5">
-          <div className="block mb-2 font-medium text-gray-900 dark:text-white w-[4rem]">Weight</div>
+          <div className="block mb-2 font-medium text-gray-900 w-[4rem]">Weight</div>
           <Input
             step={0.1}
             type="number"
@@ -145,7 +145,7 @@ const PetDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void })
           />
         </div>
         <div className="flex z-0 w-full mb-5 group items-center gap-5">
-          <div className="block mb-2 font-medium text-gray-900 dark:text-white w-[4rem]">Type</div>
+          <div className="block mb-2 font-medium text-gray-900 w-[4rem]">Type</div>
           <Input
             type="text"
             name="type"
@@ -156,7 +156,7 @@ const PetDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void })
           />
         </div>
         <div className="flex z-0 w-full mb-5 group items-center gap-5">
-          <div className="block mb-2 font-medium text-gray-900 dark:text-white w-[4rem]">Medical Note</div>
+          <div className="block mb-2 font-medium text-gray-900 w-[4rem]">Medical Note</div>
           <Input
             type="text"
             name="medicalNote"
@@ -167,7 +167,7 @@ const PetDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void })
           />
         </div>
         <div className="flex z-0 w-full mb-5 group items-center gap-5">
-          <div className="block mb-2 font-medium text-gray-900 dark:text-white w-[4rem]">Owner</div>
+          <div className="block mb-2 font-medium text-gray-900 w-[4rem]">Owner</div>
           <div className="w-full">
             <Dropdown options={ownerOptions} selectedOption={selectedOwner} onSelect={(option) => setSelectedOwner(option)} />
           </div>

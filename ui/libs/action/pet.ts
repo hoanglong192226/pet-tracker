@@ -64,7 +64,6 @@ export const submitPet = async (state: FormState<SubmitPetFormState, SubmitPetPo
 
   const requestCookies = await cookies();
 
-  console.log(data);
   try {
     await fetcher<string>("/pets", {
       data: { pets: [validatedFields.data] },

@@ -28,7 +28,7 @@ const User = () => {
   return (
     <div className="relative" ref={ref}>
       <div
-        className="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 cursor-pointer border"
+        className="relative w-8 h-8 overflow-hidden bg-gray-100 rounded-full cursor-pointer border"
         onClick={() => setOpenUserMenu(!openUserMenu)}
       >
         <svg
@@ -44,28 +44,25 @@ const User = () => {
 
       <div
         className={twMerge(
-          "right-2 top-12 md:right-2 md:top-8 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600",
+          "right-2 top-12 md:right-2 md:top-8 z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44",
           openUserMenu ? "absolute" : "hidden",
         )}
       >
-        <div className="px-4 py-3 text-sm text-gray-900 dark:text-white">
+        <div className="px-4 py-3 text-sm text-gray-900">
           <div className="font-medium truncate">
             {user?.username && user.username[0].toUpperCase() + user.username.slice(1, user.username.length)}
           </div>
         </div>
 
-        <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownInformationButton">
+        <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdownInformationButton">
           <li>
-            <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+            <a href="#" className="block px-4 py-2 hover:bg-gray-100">
               Settings
             </a>
           </li>
         </ul>
         <div className="py-2">
-          <a
-            href="#"
-            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-          >
+          <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
             Sign out
           </a>
         </div>

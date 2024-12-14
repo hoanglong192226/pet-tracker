@@ -21,9 +21,9 @@ const UsernameInput = ({ username, errors }: { username?: string; errors?: strin
   return (
     <div className="flex flex-col">
       <div className="flex">
-        <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md dark:bg-gray-600 dark:text-gray-400 dark:border-gray-600">
+        <span className="inline-flex items-center px-3 text-sm text-gray-900 bg-gray-200 border border-e-0 border-gray-300 rounded-s-md">
           <svg
-            className="w-4 h-4 text-gray-500 dark:text-gray-400"
+            className="w-4 h-4 text-gray-500"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -35,15 +35,13 @@ const UsernameInput = ({ username, errors }: { username?: string; errors?: strin
         <input
           type="text"
           name="username"
-          className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          className="rounded-none rounded-e-lg bg-gray-50 border border-gray-300 text-gray-900 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5"
           placeholder="username"
           defaultValue={username}
           required
         />
       </div>
-      <div className="text-xs text-red-600 dark:text-red-500">
-        {!!errors && <ul>{errors?.map((error) => <li key={error}>- {error}</li>)}</ul>}
-      </div>
+      <div className="text-xs text-red-600">{!!errors && <ul>{errors?.map((error) => <li key={error}>- {error}</li>)}</ul>}</div>
     </div>
   );
 };
@@ -71,7 +69,7 @@ const Login = () => {
             <Input type="password" name="password" required defaultValue={state?.data?.password} errors={state?.errors?.password} />
           </div>
           {state?.message && (
-            <div className="p-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
+            <div className="p-4 text-sm text-red-800 rounded-lg bg-red-50" role="alert">
               <span className="font-medium">{state.message}</span>
             </div>
           )}
