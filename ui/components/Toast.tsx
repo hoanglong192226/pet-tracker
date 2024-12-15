@@ -3,19 +3,29 @@ import { useEffect, useState } from "react";
 export interface ToastProps {
   message?: string;
   open?: boolean;
+  onClose?: () => void;
 }
 
-const Toast = ({ message, open }: ToastProps) => {
+const Toast = ({ message, open, onClose }: ToastProps) => {
   const [openToast, setOpenToast] = useState(open);
+
+  const closeToast = () => {
+    if (onClose) {
+      onClose();
+    }
+    setOpenToast(false);
+  };
 
   useEffect(() => {
     if (openToast) {
-      setTimeout(() => setOpenToast(false), 5000);
+      const timer = setTimeout(() => closeToast(), 5000);
+
+      return () => clearTimeout(timer);
     }
   }, [openToast]);
 
   return openToast ? (
-    <div className="absolute right-0 bottom-4">
+    <div className="fixed right-0 bottom-4">
       <div className="flex items-center w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow min-w-[15rem]" role="alert">
         <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg">
           <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -25,7 +35,7 @@ const Toast = ({ message, open }: ToastProps) => {
         </div>
         <div className="ms-3 text-sm font-normal">{message}</div>
         <button
-          onClick={() => setOpenToast(false)}
+          onClick={closeToast}
           type="button"
           className="ms-auto -mx-1.5 -my-1.5 bg-white text-gray-400 hover:text-gray-900 rounded-lg p-1.5 hover:bg-gray-100 inline-flex items-center justify-center h-8 w-8"
           data-dismiss-target="#toast-danger"

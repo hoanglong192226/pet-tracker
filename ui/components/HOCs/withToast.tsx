@@ -4,12 +4,11 @@ import { createPortal } from "react-dom";
 
 const withToast = (Component: any) => {
   const ComponentWithToast = (props: any) => {
-    const [open, setOpen] = useState(false);
     const [container, setContainer] = useState<HTMLElement>();
     const [toastConfig, setToastConfig] = useState<ToastProps>();
 
     useEffect(() => {
-      if (open) {
+      if (toastConfig?.open) {
         const pageContainer = window.document.getElementById("corePageContainer");
         if (pageContainer) {
           setContainer(pageContainer);
@@ -17,16 +16,22 @@ const withToast = (Component: any) => {
           setContainer(window.document.body);
         }
       }
-    }, [open]);
+    }, [toastConfig?.open]);
 
     const setToast = (config: ToastProps) => {
-      setOpen(true);
-      setToastConfig(config);
+      const onClose = () => {
+        setToastConfig(undefined);
+        if (config.onClose) {
+          config.onClose();
+        }
+      };
+
+      setToastConfig({ ...config, onClose });
     };
 
     return (
       <>
-        {toastConfig?.message && createPortal(<Toast open={open} {...toastConfig} />, container || window.document.body)}
+        {toastConfig?.onClose && createPortal(<Toast {...toastConfig} />, container || window.document.body)}
         <Component {...props} setToast={setToast} />
       </>
     );
