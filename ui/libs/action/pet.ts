@@ -10,11 +10,7 @@ export const getPets = async (): Promise<ServerResponse<Pet[]>> => {
   const requestCookies = await cookies();
 
   try {
-    const pets: Pet[] = await fetcher<Pet[]>("/pets", {
-      headers: {
-        Cookie: requestCookies.toString(),
-      },
-    });
+    const pets: Pet[] = await fetcher<Pet[]>("/pets");
 
     return {
       isSuccess: true,
@@ -32,11 +28,7 @@ export const getPet = async (id: string): Promise<ServerResponse<Pet>> => {
   const requestCookies = await cookies();
 
   try {
-    const pet: Pet = await fetcher<Pet>(`/pets/${encodeURI(id)}`, {
-      headers: {
-        Cookie: requestCookies.toString(),
-      },
-    });
+    const pet: Pet = await fetcher<Pet>(`/pets/${encodeURI(id)}`);
 
     return {
       isSuccess: true,
@@ -62,15 +54,10 @@ export const submitPet = async (state: FormState<SubmitPetFormState, SubmitPetPo
     };
   }
 
-  const requestCookies = await cookies();
-
   try {
     await fetcher<string>("/pets", {
       data: { pets: [validatedFields.data] },
       method: "POST",
-      headers: {
-        Cookie: requestCookies.toString(),
-      },
     });
 
     return { isSuccess: true };

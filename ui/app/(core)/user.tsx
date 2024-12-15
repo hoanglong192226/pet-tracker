@@ -1,5 +1,6 @@
 "use client";
 
+import { logout } from "@/libs/action/auth";
 import { UserContext } from "app/contexts/user-context";
 import { useContext, useEffect, useRef, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -62,9 +63,9 @@ const User = () => {
           </li>
         </ul>
         <div className="py-2">
-          <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+          <div onClick={logout} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer">
             Sign out
-          </a>
+          </div>
         </div>
       </div>
     </div>

@@ -2,8 +2,11 @@
 
 import { FormState, LoginFormState } from "@/libs/schema";
 import { LoginPostRequest, LoginPostRequestSchema } from "@/libs/schema/zod-schema";
+import { USER_PROFILE_COOKIE } from "@/libs/utils";
 import fetcher from "@/libs/utils/axios";
+import CookiesUtil from "@/libs/utils/cookies";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
 export const login = async (state: FormState<LoginFormState, LoginPostRequestSchema>, formData: FormData) => {
   const data = Object.fromEntries(formData);
@@ -38,4 +41,18 @@ export const login = async (state: FormState<LoginFormState, LoginPostRequestSch
       message: e.message as string,
     };
   }
+};
+
+export const logout = async () => {
+  try {
+    await fetcher<string>("/auth/logout", {
+      method: "POST",
+    });
+  } catch (e) {
+    console.error(e);
+  }
+  const cookiesRequest = await cookies();
+  cookiesRequest.delete("token");
+  cookiesRequest.delete(CookiesUtil.COOKIES_PREFIX + USER_PROFILE_COOKIE);
+  redirect("/");
 };

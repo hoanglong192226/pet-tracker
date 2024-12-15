@@ -10,11 +10,7 @@ export const getOwners = async (): Promise<ServerResponse<Owner[]>> => {
   const requestCookies = await cookies();
 
   try {
-    const owners: Owner[] = await fetcher<Owner[]>("/owners", {
-      headers: {
-        Cookie: requestCookies.toString(),
-      },
-    });
+    const owners: Owner[] = await fetcher<Owner[]>("/owners");
 
     return {
       data: owners,
@@ -32,11 +28,7 @@ export const getOwner = async (id: string): Promise<ServerResponse<Owner>> => {
   const requestCookies = await cookies();
 
   try {
-    const owner: Owner = await fetcher<Owner>(`/owners/${encodeURI(id)}`, {
-      headers: {
-        Cookie: requestCookies.toString(),
-      },
-    });
+    const owner: Owner = await fetcher<Owner>(`/owners/${encodeURI(id)}`);
 
     return {
       isSuccess: true,
@@ -55,9 +47,6 @@ export const deleteOwner = async (id: string) => {
 
   try {
     await fetcher<Owner>(`/owners/${encodeURI(id)}`, {
-      headers: {
-        Cookie: requestCookies.toString(),
-      },
       method: "DELETE",
     });
   } catch (e) {
@@ -86,9 +75,6 @@ export const submitOwner = async (state: FormState<SubmitOwnerFormState, SubmitO
       await fetcher<string>("/pets", {
         data: { pets: updatedPets },
         method: "POST",
-        headers: {
-          Cookie: requestCookies.toString(),
-        },
       });
     } catch (e: any) {
       return {
@@ -102,9 +88,6 @@ export const submitOwner = async (state: FormState<SubmitOwnerFormState, SubmitO
     await fetcher<string>("/owners", {
       data: { owners: [validatedFields.data] },
       method: "POST",
-      headers: {
-        Cookie: requestCookies.toString(),
-      },
     });
 
     return { isSuccess: true };

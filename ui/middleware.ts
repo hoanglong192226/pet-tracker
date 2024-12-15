@@ -34,11 +34,7 @@ export async function middleware(request: NextRequest) {
     const cookie = request.cookies.get(userProfileCookies)?.value;
 
     if (!cookie) {
-      const userProfile: UserProfle | undefined = await fetcher<UserProfle>("/auth/profile", {
-        headers: {
-          Cookie: requestCookies.toString(),
-        },
-      });
+      const userProfile: UserProfle | undefined = await fetcher<UserProfle>("/auth/profile");
       const signedUserProfileCookies = await CookiesUtil.signCookie(userProfile);
 
       requestCookies.set({
