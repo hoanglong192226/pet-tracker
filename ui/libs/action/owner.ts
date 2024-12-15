@@ -4,11 +4,8 @@ import { Owner, Pet, ServerResponse } from "@/libs/model";
 import { FormState, SubmitOwnerFormState } from "@/libs/schema";
 import { SubmitOwnerPostRequest, SubmitOwnerPostRequestSchema } from "@/libs/schema/zod-schema";
 import fetcher from "@/libs/utils/axios";
-import { cookies } from "next/headers";
 
 export const getOwners = async (): Promise<ServerResponse<Owner[]>> => {
-  const requestCookies = await cookies();
-
   try {
     const owners: Owner[] = await fetcher<Owner[]>("/owners");
 
@@ -25,8 +22,6 @@ export const getOwners = async (): Promise<ServerResponse<Owner[]>> => {
 };
 
 export const getOwner = async (id: string): Promise<ServerResponse<Owner>> => {
-  const requestCookies = await cookies();
-
   try {
     const owner: Owner = await fetcher<Owner>(`/owners/${encodeURI(id)}`);
 
@@ -43,14 +38,20 @@ export const getOwner = async (id: string): Promise<ServerResponse<Owner>> => {
 };
 
 export const deleteOwner = async (id: string) => {
-  const requestCookies = await cookies();
-
   try {
-    await fetcher<Owner>(`/owners/${encodeURI(id)}`, {
+    const data = await fetcher<Owner>(`/owners/${encodeURI(id)}`, {
       method: "DELETE",
     });
-  } catch (e) {
-    throw new Error(JSON.stringify(e));
+
+    return {
+      data,
+      isSuccess: true,
+    };
+  } catch (e: any) {
+    return {
+      isSuccess: false,
+      error: e.message,
+    };
   }
 };
 
@@ -67,8 +68,6 @@ export const submitOwner = async (state: FormState<SubmitOwnerFormState, SubmitO
   }
 
   const updatedPets: Pet[] = formData.has("pets") ? JSON.parse(formData.get("pets") as string) : [];
-
-  const requestCookies = await cookies();
 
   if (updatedPets.length) {
     try {

@@ -78,19 +78,19 @@ const PetDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void })
           return;
         }
         setPet(data);
-
-        const { isSuccess: ownerIsSuccess, data: ownersData, error } = await getOwners();
-        if (!ownerIsSuccess) {
-          setToast({
-            open: true,
-            message: error,
-          });
-
-          return;
-        }
-
-        setOwners(ownersData);
       }
+
+      const { isSuccess: ownerIsSuccess, data: ownersData, error } = await getOwners();
+      if (!ownerIsSuccess) {
+        setToast({
+          open: true,
+          message: error,
+        });
+
+        return;
+      }
+
+      setOwners(ownersData);
     })();
   }, [id]);
 

@@ -50,7 +50,15 @@ const OwnerPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => 
 
   const handleDelete = async () => {
     if (deleteOwner) {
-      await deleteOwnerAction(String(deleteOwner.id));
+      const { isSuccess, error } = await deleteOwnerAction(String(deleteOwner.id));
+      if (!isSuccess) {
+        setToast({
+          open: true,
+          message: error,
+        });
+
+        return;
+      }
       await fetchOwners();
     }
   };

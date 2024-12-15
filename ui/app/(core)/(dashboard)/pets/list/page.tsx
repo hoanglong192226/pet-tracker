@@ -7,7 +7,7 @@ import withToast from "@/components/HOCs/withToast";
 import Modal from "@/components/Modal";
 import Table, { TableHeaderProps, TableRowProps } from "@/components/Table";
 import { ToastProps } from "@/components/Toast";
-import { getPets } from "@/libs/action/pet";
+import { getPets, deletePet as deletePetAction } from "@/libs/action/pet";
 import { Pet } from "@/libs/model";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -62,8 +62,17 @@ const PetPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
 
   const handleDelete = async () => {
     if (deletePet) {
-      //   await deleteOwnerAction(String(deleteOwner.id));
-      await fetchOwners();
+      const { isSuccess, error } = await deletePetAction(String(deletePet.id));
+      console.log(isSuccess, error);
+      if (!isSuccess) {
+        setToast({
+          open: true,
+          message: error,
+        });
+
+        return;
+      }
+      await fetchPets();
     }
   };
 
@@ -79,7 +88,7 @@ const PetPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
     }
   }, []);
 
-  const fetchOwners = useCallback(async () => {
+  const fetchPets = useCallback(async () => {
     setLoading(true);
     const { data, isSuccess, error } = await getPets();
     if (isSuccess) {
@@ -94,7 +103,7 @@ const PetPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
   }, []);
 
   useEffect(() => {
-    fetchOwners().finally(() => setLoading(false));
+    fetchPets().finally(() => setLoading(false));
   }, []);
 
   const ownerRows: TableRowProps[] = useMemo(() => {

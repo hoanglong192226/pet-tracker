@@ -2,13 +2,10 @@
 
 import { Pet, ServerResponse } from "@/libs/model";
 import { FormState, SubmitPetFormState } from "@/libs/schema";
-import { SubmitOwnerPostRequestSchema, SubmitPetPostRequest, SubmitPetPostRequestSchema } from "@/libs/schema/zod-schema";
+import { SubmitPetPostRequest, SubmitPetPostRequestSchema } from "@/libs/schema/zod-schema";
 import fetcher from "@/libs/utils/axios";
-import { cookies } from "next/headers";
 
 export const getPets = async (): Promise<ServerResponse<Pet[]>> => {
-  const requestCookies = await cookies();
-
   try {
     const pets: Pet[] = await fetcher<Pet[]>("/pets");
 
@@ -25,8 +22,6 @@ export const getPets = async (): Promise<ServerResponse<Pet[]>> => {
 };
 
 export const getPet = async (id: string): Promise<ServerResponse<Pet>> => {
-  const requestCookies = await cookies();
-
   try {
     const pet: Pet = await fetcher<Pet>(`/pets/${encodeURI(id)}`);
 
@@ -65,6 +60,24 @@ export const submitPet = async (state: FormState<SubmitPetFormState, SubmitPetPo
     return {
       data: data as any as SubmitPetPostRequestSchema,
       message: e.message as string,
+    };
+  }
+};
+
+export const deletePet = async (id: string) => {
+  try {
+    const data = await fetcher<Pet>(`/pets/${encodeURI(id)}`, {
+      method: "DELETE",
+    });
+
+    return {
+      data,
+      isSuccess: true,
+    };
+  } catch (e: any) {
+    return {
+      isSuccess: false,
+      error: e.message,
     };
   }
 };
