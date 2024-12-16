@@ -1,6 +1,8 @@
 package com.pet.management.tracker.controller;
 
 import com.pet.management.tracker.exception.ApplicationException;
+import com.pet.management.tracker.exception.NotFoundException;
+import com.pet.management.tracker.model.dto.OwnerDto;
 import com.pet.management.tracker.model.dto.UserDto;
 import com.pet.management.tracker.service.UserService;
 import com.pet.management.tracker.util.ErrorCode;
@@ -33,8 +35,8 @@ public class AdminController {
   }
 
   @PostMapping("/users")
-  public UserDto createUser(@Valid @RequestBody UserDto userDto) {
-    userValidator.validateCreateUser(userDto);
+  public UserDto saveUser(@Valid @RequestBody UserDto userDto) {
+    userValidator.validateSaveUser(userDto);
 
     List<UserDto> results = userService.createUsers(Collections.singletonList(userDto));
     if (results.isEmpty()) {
@@ -44,8 +46,17 @@ public class AdminController {
     return results.get(0);
   }
 
+  @GetMapping("/users/{id}")
+  public UserDto getUserById(@PathVariable @NotNull Long id) {
+    List<UserDto> userDtos = userService.findByIds(Collections.singletonList(id));
+    if (userDtos.isEmpty()) {
+      throw new NotFoundException(ErrorCode.USER_NOT_FOUND, "User not found");
+    }
+    return userDtos.get(0);
+  }
+
   @DeleteMapping("/users/{id}")
-  public void deleteOwner(@PathVariable @NotNull Long id) {
+  public void deleteUser(@PathVariable @NotNull Long id) {
     userValidator.validateDeleteUser(id);
 
     userService.deleteUser(id);

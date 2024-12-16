@@ -3,7 +3,6 @@ package com.pet.management.tracker.service.impl;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import com.pet.management.tracker.converter.PetConverter;
-import com.pet.management.tracker.model.PetType;
 import com.pet.management.tracker.model.dto.PetDto;
 import com.pet.management.tracker.model.entity.Pet;
 import com.pet.management.tracker.repository.PetRepository;
@@ -37,7 +36,6 @@ class PetServiceImplTest {
     // Given
     List<Pet> pets = new ArrayList<>();
     Pet pet = new Pet();
-    pet.setType(PetType.DOG.getValue());
     pets.add(pet);
 
     //When
@@ -53,7 +51,6 @@ class PetServiceImplTest {
     // Given
     List<Pet> pets = new ArrayList<>();
     Pet pet = new Pet();
-    pet.setType(PetType.DOG.getValue());
     pets.add(pet);
 
     // When
@@ -69,7 +66,6 @@ class PetServiceImplTest {
     // Given
     List<Pet> pets = new ArrayList<>();
     Pet pet = new Pet();
-    pet.setType(PetType.DOG.getValue());
     pets.add(pet);
 
     // When

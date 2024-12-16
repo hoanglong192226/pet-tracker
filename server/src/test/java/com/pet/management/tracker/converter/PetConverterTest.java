@@ -3,7 +3,6 @@ package com.pet.management.tracker.converter;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.pet.management.tracker.model.PetType;
 import com.pet.management.tracker.model.dto.PetDto;
 import com.pet.management.tracker.model.entity.Pet;
 import org.junit.jupiter.api.Test;
@@ -16,7 +15,7 @@ class PetConverterTest {
   public void testToDto_thenReturnSuccess() {
     // Given
     Pet pet = new Pet();
-    pet.setType(PetType.DOG.getValue());
+    pet.setType("dog");
     pet.setId(1L);
     pet.setMedicalNote("medical");
     pet.setAge(20);
@@ -27,7 +26,7 @@ class PetConverterTest {
     PetDto petDto = petConverter.toDto(pet);
 
     // Then
-    assertEquals(petDto.getType().getValue(), PetType.DOG.getValue());
+    assertEquals(petDto.getType(), "dog");
     assertEquals(petDto.getName(), "name");
     assertEquals(petDto.getId(), 1L);
     assertEquals(petDto.getWeight(), 50);
@@ -39,12 +38,12 @@ class PetConverterTest {
   @Test
   public void testFromDto_whenOwnerIsNull_thenReturnSuccess() {
     // Give
-    PetDto petDto = PetDto.builder().id(1L).name("name").age(10).medicalNote("medical").type(PetType.DOG).weight(50)
+    PetDto petDto = PetDto.builder().id(1L).name("name").age(10).medicalNote("medical").type("dog").weight(50)
         .build();
 
     // When
     Pet pet = petConverter.fromDto(petDto);
-    assertEquals(pet.getType(), PetType.DOG.getValue());
+    assertEquals(pet.getType(), "dog");
     assertEquals(pet.getName(), "name");
     assertEquals(pet.getId(), 1L);
     assertEquals(pet.getWeight(), 50);
@@ -58,7 +57,7 @@ class PetConverterTest {
   @Test
   public void testFromDto_whenOwnerIsNotNull_thenReturnSuccess() {
     // Give
-    PetDto petDto = PetDto.builder().type(PetType.DOG).ownerId(10L).build();
+    PetDto petDto = PetDto.builder().ownerId(10L).build();
 
     // When
     Pet pet = petConverter.fromDto(petDto);

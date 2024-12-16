@@ -4,7 +4,7 @@ import com.pet.management.tracker.model.dto.UserDto;
 
 public interface UserValidator {
 
-  void validateCreateUser(UserDto userDto);
+  void validateSaveUser(UserDto userDto);
 
   void validateDeleteUser(Long id);
 }

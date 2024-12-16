@@ -1,6 +1,5 @@
 package com.pet.management.tracker.converter;
 
-import com.pet.management.tracker.model.PetType;
 import com.pet.management.tracker.model.dto.OwnerDto;
 import com.pet.management.tracker.model.dto.PetDto;
 import com.pet.management.tracker.model.entity.Owner;
@@ -20,7 +19,7 @@ public class PetConverter implements DtoConverter<Pet, PetDto> {
         .name(pet.getName())
         .weight(pet.getWeight())
         .age(pet.getAge())
-        .type(PetType.fromValue(pet.getType()))
+        .type(pet.getType())
         .medicalNote(pet.getMedicalNote())
         .owner(pet.getOwner() != null ? OwnerDto.builder().id(pet.getOwner().getId()).phone(pet.getOwner().getPhone())
             .name(pet.getOwner().getName())
@@ -37,7 +36,7 @@ public class PetConverter implements DtoConverter<Pet, PetDto> {
     }
 
     return new Pet(petDto.getId(), petDto.getName(), petDto.getAge(), petDto.getWeight(),
-        petDto.getType().getValue(), petDto.getMedicalNote(), owner);
+        petDto.getType(), petDto.getMedicalNote(), owner);
 
   }
 }

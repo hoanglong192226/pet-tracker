@@ -1,6 +1,7 @@
 package com.pet.management.tracker.service.impl;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 
 import com.pet.management.tracker.converter.UserConverter;

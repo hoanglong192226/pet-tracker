@@ -4,7 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
-import com.pet.management.tracker.model.PetType;
 import com.pet.management.tracker.model.dto.OwnerDto;
 import com.pet.management.tracker.model.dto.PetDto;
 import com.pet.management.tracker.model.entity.Owner;
@@ -20,7 +19,7 @@ class OwnerConverterTest {
   public void testToDto_thenReturnSuccess() {
     // Given
     Pet pet = new Pet();
-    pet.setType(PetType.DOG.getValue());
+    pet.setType("dog");
 
     Owner owner = new Owner();
     owner.setPhone("phone");

@@ -1,7 +1,11 @@
 package com.pet.management.tracker.validator.Impl;
 
+import static com.pet.management.tracker.util.ErrorCode.USER_NOT_FOUND;
+
+import com.pet.management.tracker.exception.BadRequestException;
 import com.pet.management.tracker.exception.NotFoundException;
 import com.pet.management.tracker.exception.UnsupportedOperationException;
+import com.pet.management.tracker.model.UserRole;
 import com.pet.management.tracker.model.dto.UserDto;
 import com.pet.management.tracker.service.UserService;
 import com.pet.management.tracker.util.ErrorCode;
@@ -20,39 +24,44 @@ public class UserValidatorImpl implements UserValidator {
 
   private final UserService userService;
 
-  public void validateUserExist(UserDto userDto) {
-    List<UserDto> existedUsers = userService.findByIds(Collections.singletonList(userDto.getId()));
-    if (!existedUsers.isEmpty()) {
-      throw new NotFoundException(ErrorCode.USER_EXISTED, "User existed");
+  @Override
+  public void validateSaveUser(UserDto userDto) {
+    if(userDto.getId() != null) {
+      List<UserDto> users = userService.findByIds(Collections.singletonList(userDto.getId()));
+      if(users.isEmpty()) {
+        throw new NotFoundException(USER_NOT_FOUND, "User not found");
+      }
+
+      UserDto user = users.get(0);
+      if(!user.getUsername().equals(userDto.getUsername())) {
+        throw new UnsupportedOperationException("Unable to modify username");
+      }
+
+      if(user.getUsername().equals(ADMIN_USERNAME) && userDto.getRole() != UserRole.ADMIN) {
+        throw new UnsupportedOperationException("Unable to modify 'admin' user role");
+      }
+
+      return;
     }
 
     UserDto existedUsernameUser = userService.findByUsername(userDto.getUsername());
     if (existedUsernameUser != null) {
-      throw new NotFoundException(ErrorCode.USER_EXISTED, "User existed");
+      throw new BadRequestException("User existed");
     }
-
-  }
-
-  private void validAdminUsername(String username) {
-    if (username.equals(ADMIN_USERNAME)) {
-      throw new UnsupportedOperationException("Unable to modify admin username");
-    }
-  }
-
-  @Override
-  public void validateCreateUser(UserDto userDto) {
-    validateUserExist(userDto);
-
-    validAdminUsername(userDto.getUsername());
   }
 
   @Override
   public void validateDeleteUser(Long id) {
     List<UserDto> existedUsers = userService.findByIds(Collections.singletonList(id));
     if (existedUsers.isEmpty()) {
-      return;
+      throw new NotFoundException(USER_NOT_FOUND, "User not found");
     }
-    validAdminUsername(existedUsers.get(0).getUsername());
+
+    UserDto user = existedUsers.get(0);
+
+    if(user.getUsername().equals(ADMIN_USERNAME)) {
+      throw new UnsupportedOperationException("Unable to delete 'admin' user");
+    }
 
   }
 }
