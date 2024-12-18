@@ -1,7 +1,7 @@
-import { UserProfle } from "libs/model";
+import { UserProfile } from "libs/model";
 import moment from "moment";
 
-const isExpiredUser = (user?: UserProfle | null) => {
+const isExpiredUser = (user?: UserProfile | null) => {
   if (!user) {
     return false;
   }

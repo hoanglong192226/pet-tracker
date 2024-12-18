@@ -104,7 +104,7 @@ const OwnerDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void 
         </div>
         {id && (
           <div className="flex z-0 w-full mb-5 group items-start gap-8">
-            <div className="block mb-2 font-medium text-gray-900 w-[4rem]">Pets</div>
+            <div className="block mb-2 font-medium text-gray-900 w-[2rem]">Pets</div>
             <div className={twMerge("flex flex-wrap gap-2 p-3 w-full border rounded min-h-[8rem]")}>
               {owner?.pets.map((s) => (
                 <span

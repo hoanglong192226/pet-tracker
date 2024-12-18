@@ -1,5 +1,5 @@
-import { UserProfle } from "@/libs/model";
-import { USER_PROFILE_COOKIE } from "@/libs/utils";
+import { APP_ROLE, UserProfile } from "@/libs/model";
+import { getRouteFromPathname, USER_PROFILE_COOKIE } from "@/libs/utils";
 import fetcher from "@/libs/utils/axios";
 import CookiesUtil from "@/libs/utils/cookies";
 import { cookies } from "next/headers";
@@ -34,7 +34,7 @@ export async function middleware(request: NextRequest) {
     const cookie = request.cookies.get(userProfileCookies)?.value;
 
     if (!cookie) {
-      const userProfile: UserProfle | undefined = await fetcher<UserProfle>("/auth/profile");
+      const userProfile: UserProfile | undefined = await fetcher<UserProfile>("/auth/profile");
       const signedUserProfileCookies = await CookiesUtil.signCookie(userProfile);
 
       requestCookies.set({
@@ -44,7 +44,11 @@ export async function middleware(request: NextRequest) {
         httpOnly: true,
       });
     } else {
-      await CookiesUtil.unsignCookie(cookie);
+      const user: UserProfile = JSON.parse(await CookiesUtil.unsignCookie(cookie));
+      const route = getRouteFromPathname(request.nextUrl.pathname);
+      if (!route?.role.includes(user.role as APP_ROLE)) {
+        return NextResponse.redirect(new URL("/", request.url));
+      }
     }
 
     return NextResponse.next();

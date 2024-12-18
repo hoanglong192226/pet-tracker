@@ -1,5 +1,5 @@
 import { getUser } from "@/libs/action/user";
-import { UserProfle } from "@/libs/model";
+import { UserProfile } from "@/libs/model";
 import { USER_PROFILE_COOKIE } from "@/libs/utils";
 import CookiesUtil from "@/libs/utils/cookies";
 import { cookies } from "next/headers";
@@ -7,7 +7,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 
 interface UserContextProps {
-  user?: UserProfle;
+  user?: UserProfile;
   invalidateUser: () => void;
 }
 
@@ -18,7 +18,7 @@ interface UserContextProviderProps {
 export const UserContext = createContext<UserContextProps>({ invalidateUser: () => {} });
 
 export const UserContextProvider = ({ children }: UserContextProviderProps) => {
-  const [user, setUser] = useState<UserProfle>();
+  const [user, setUser] = useState<UserProfile>();
   const pathName = usePathname();
 
   const invalidateUser = () => {

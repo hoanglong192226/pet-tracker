@@ -20,7 +20,7 @@ const MainMenu = () => {
       return [];
     }
 
-    return MENU_ROUTE.filter((s) => s.role.includes(user.role as APP_ROLE));
+    return MENU_ROUTE.filter((s) => s.display && s.role.includes(user.role as APP_ROLE));
   }, [user]);
 
   return (

@@ -1,7 +1,13 @@
-export interface UserProfle {
+export interface UserProfile {
   username: string;
   role: string;
   expiredAt: number;
+}
+
+export interface User {
+  id: number;
+  username: string;
+  role: string;
 }
 
 export interface Owner {
@@ -34,4 +40,5 @@ export interface AppRoute {
   name: string;
   path: string;
   role: APP_ROLE[];
+  display?: boolean;
 }
