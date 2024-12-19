@@ -26,3 +26,15 @@ export const SubmitPetPostRequest = z.object({
 });
 
 export type SubmitPetPostRequestSchema = z.infer<typeof SubmitPetPostRequest>;
+
+export const SubmitUserPostRequest = z
+  .object({
+    id: z.coerce.number().int().optional(),
+    username: z.string().trim().min(5).max(32).optional(),
+    password: z.string().trim().min(8).max(64),
+    repassword: z.string().trim().min(8).max(64),
+    role: z.coerce.number().int().gt(0).optional(),
+  })
+  .refine((s) => s.password === s.repassword, { message: "Re-password not match", path: ["repassword"] });
+
+export type SubmitUserPostRequestSchema = z.infer<typeof SubmitUserPostRequest>;

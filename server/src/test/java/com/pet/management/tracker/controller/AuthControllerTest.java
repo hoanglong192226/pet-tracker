@@ -50,7 +50,7 @@ class AuthControllerTest {
     User user = new User("username", "password", List.of(new SimpleGrantedAuthority("ROLE_USER")));
     when(authenticationManager.authenticate(any())).thenReturn(authentication);
     when(authentication.getPrincipal()).thenReturn(user);
-    when(jwtUtil.generateToken("username", "ROLE_USER")).thenReturn("mockJwtToken");
+    when(jwtUtil.generateToken("username", "USER")).thenReturn("mockJwtToken");
 
     mockMvc.perform(post("/api/v1/auth/login")
             .contentType(MediaType.APPLICATION_JSON)

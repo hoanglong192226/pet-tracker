@@ -2,13 +2,12 @@ package com.pet.management.tracker.controller;
 
 
 import static com.pet.management.tracker.util.ErrorCode.UNAUTHENTICATED;
+import static com.pet.management.tracker.util.RoleUtil.getRoleFromAuthorities;
 
-import com.pet.management.tracker.exception.NotFoundException;
 import com.pet.management.tracker.exception.UnauthenticatedException;
 import com.pet.management.tracker.model.dto.AuthRequest;
 import com.pet.management.tracker.model.dto.ProfileDto;
 import com.pet.management.tracker.util.CookiesUtil;
-import com.pet.management.tracker.util.ErrorCode;
 import com.pet.management.tracker.util.JwtUtil;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -49,7 +48,8 @@ public class AuthController {
           new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 
       User user = (User) authentication.getPrincipal();
-      String token = jwtUtil.generateToken(user.getUsername(), user.getAuthorities().iterator().next().getAuthority());
+      String role = getRoleFromAuthorities(user.getAuthorities());
+      String token = jwtUtil.generateToken(user.getUsername(), role);
 
       ResponseCookie cookie = ResponseCookie.from(CookiesUtil.TOKEN_COOKIE, token).httpOnly(true)
           .sameSite(SameSite.STRICT.attributeValue()).path("/")
@@ -88,8 +88,10 @@ public class AuthController {
 
     User user = (User) authentication.getPrincipal();
 
+    String role = getRoleFromAuthorities(user.getAuthorities());
+
     return ProfileDto.builder().username(user.getUsername())
-        .role(user.getAuthorities().iterator().next().getAuthority()).expiredAt(expiredAt).build();
+        .role(role).expiredAt(expiredAt).build();
 
   }
 }

@@ -1,8 +1,6 @@
-import { getUser } from "@/libs/action/user";
+import { getUserProfile } from "@/libs/action/user";
 import { UserProfile } from "@/libs/model";
-import { USER_PROFILE_COOKIE } from "@/libs/utils";
 import CookiesUtil from "@/libs/utils/cookies";
-import { cookies } from "next/headers";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 
@@ -28,7 +26,7 @@ export const UserContextProvider = ({ children }: UserContextProviderProps) => {
 
   useEffect(() => {
     if (!user && !pathName.startsWith("/login", 0)) {
-      getUser().then((s) => {
+      getUserProfile().then((s) => {
         if (s) {
           setUser(s);
         }

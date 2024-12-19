@@ -27,6 +27,10 @@ public class UserValidatorImpl implements UserValidator {
   @Override
   public void validateSaveUser(UserDto userDto) {
     if(userDto.getId() != null) {
+      if(userDto.getUsername().equals(ADMIN_USERNAME)) {
+        throw new UnsupportedOperationException("Unable to modify 'admin' user");
+      }
+
       List<UserDto> users = userService.findByIds(Collections.singletonList(userDto.getId()));
       if(users.isEmpty()) {
         throw new NotFoundException(USER_NOT_FOUND, "User not found");
@@ -35,10 +39,6 @@ public class UserValidatorImpl implements UserValidator {
       UserDto user = users.get(0);
       if(!user.getUsername().equals(userDto.getUsername())) {
         throw new UnsupportedOperationException("Unable to modify username");
-      }
-
-      if(user.getUsername().equals(ADMIN_USERNAME) && userDto.getRole() != UserRole.ADMIN) {
-        throw new UnsupportedOperationException("Unable to modify 'admin' user role");
       }
 
       return;

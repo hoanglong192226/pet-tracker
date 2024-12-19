@@ -16,6 +16,13 @@ export interface SubmitPetFormState {
   medicalNote: string[];
 }
 
+export interface SubmitUserFormState {
+  username: string[];
+  role: string[];
+  password: string[];
+  repassword: string[];
+}
+
 export type FormState<T, V> =
   | {
       isSuccess?: boolean;

@@ -97,7 +97,7 @@ const UserPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
         ...user,
       },
       actions: [
-        <Button key={"edit"} onClick={() => handleEdit(user.id)}>
+        <Button disabled={user.username === "admin"} key={"edit"} onClick={() => handleEdit(user.id)}>
           Edit
         </Button>,
         <Button

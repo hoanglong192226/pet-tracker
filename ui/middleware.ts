@@ -1,4 +1,5 @@
-import { APP_ROLE, UserProfile } from "@/libs/model";
+import { logout } from "@/libs/action/auth";
+import { USER_ROLE, UserProfile } from "@/libs/model";
 import { getRouteFromPathname, USER_PROFILE_COOKIE } from "@/libs/utils";
 import fetcher from "@/libs/utils/axios";
 import CookiesUtil from "@/libs/utils/cookies";
@@ -45,8 +46,12 @@ export async function middleware(request: NextRequest) {
       });
     } else {
       const user: UserProfile = JSON.parse(await CookiesUtil.unsignCookie(cookie));
+      if (!Object.values(USER_ROLE).includes(user.role as USER_ROLE)) {
+        return await logout();
+      }
+
       const route = getRouteFromPathname(request.nextUrl.pathname);
-      if (!route?.role.includes(user.role as APP_ROLE)) {
+      if (!route?.role.includes(user.role as USER_ROLE)) {
         return NextResponse.redirect(new URL("/", request.url));
       }
     }

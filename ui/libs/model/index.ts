@@ -33,12 +33,15 @@ export interface ServerResponse<T> {
   error?: string;
 }
 
-export type APP_ROLE = "ROLE_admin" | "ROLE_member";
+export enum USER_ROLE {
+  ADMIN = "admin",
+  MEMBER = "member",
+}
 
 export interface AppRoute {
   id: string;
   name: string;
   path: string;
-  role: APP_ROLE[];
+  role: USER_ROLE[];
   display?: boolean;
 }

@@ -9,12 +9,14 @@ interface InputProps {
   required?: boolean;
   value?: any;
   step?: number;
+  disable?: boolean;
 }
 
-const Input = ({ type, name, classNames, defaultValue, errors, required, value, step }: InputProps) => {
+const Input = ({ type, name, classNames, defaultValue, errors, required, value, step, disable }: InputProps) => {
   return (
     <div className="flex flex-col grow">
       <input
+        disabled={disable}
         step={step}
         type={type}
         name={name}

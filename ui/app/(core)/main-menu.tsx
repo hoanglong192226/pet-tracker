@@ -9,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 import { usePathname } from "next/navigation";
 import { MENU_ROUTE } from "@/libs/utils";
 import { UserContext } from "app/contexts/user-context";
-import { APP_ROLE, AppRoute } from "@/libs/model";
+import { USER_ROLE, AppRoute } from "@/libs/model";
 
 const MainMenu = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -20,7 +20,7 @@ const MainMenu = () => {
       return [];
     }
 
-    return MENU_ROUTE.filter((s) => s.display && s.role.includes(user.role as APP_ROLE));
+    return MENU_ROUTE.filter((s) => s.display && s.role.includes(user.role as USER_ROLE));
   }, [user]);
 
   return (

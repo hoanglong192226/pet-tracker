@@ -20,9 +20,6 @@ const fetcher = async <T>(url: string, config?: AxiosRequestConfig) => {
 
     return response.data as T;
   } catch (error: any) {
-    if (error.status === 403) {
-      await logout();
-    }
     if (axios.isAxiosError(error) && error.response) {
       if (error.response.data) {
         throw {

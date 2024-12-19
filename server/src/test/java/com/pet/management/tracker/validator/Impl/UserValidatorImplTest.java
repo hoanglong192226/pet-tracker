@@ -36,7 +36,7 @@ class UserValidatorImplTest {
   @Test
   public void testValidateSaveUser_whenEditUserAndUserNotFound_thenThrowNotFoundException() {
     // Given
-    UserDto userDto = UserDto.builder().id(1L).build();
+    UserDto userDto = UserDto.builder().username("tester").id(1L).build();
 
     // When
     when(userService.findByIds(Collections.singletonList(1L))).thenReturn(new ArrayList<>());
@@ -63,13 +63,9 @@ class UserValidatorImplTest {
   }
 
   @Test
-  public void testValidateSaveUser_whenEditAdminUserWithDifferentRole_thenThrowUnsupportedException() {
+  public void testValidateSaveUser_whenEditAdminUser_thenThrowUnsupportedException() {
     // Given
     UserDto userDto = UserDto.builder().id(1L).username("admin").role(UserRole.MEMBER).build();
-
-    // When
-    when(userService.findByIds(Collections.singletonList(1L))).thenReturn(
-        Collections.singletonList(UserDto.builder().username("admin").role(UserRole.ADMIN).build()));
 
     // Then
     assertThrows(UnsupportedOperationException.class, () -> {
