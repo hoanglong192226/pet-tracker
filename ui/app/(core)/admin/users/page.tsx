@@ -56,12 +56,12 @@ const UserDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void }
       if (id) {
         const { isSuccess, data } = await getUser(id);
         if (!isSuccess) {
-          replace("/users");
+          replace("/admin/users");
 
           return;
         }
         if (data?.username === "admin") {
-          replace("/users");
+          replace("/admin/users");
 
           return;
         }
@@ -79,7 +79,7 @@ const UserDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void }
     }
 
     if (state?.isSuccess) {
-      push("/users/list");
+      push("/admin/users/list");
     }
   }, [state]);
 
@@ -129,7 +129,7 @@ const UserDetailPage = ({ setToast }: { setToast: (config: ToastProps) => void }
           </div>
         </div>
         <div className="flex gap-5 grow justify-end">
-          <Button type="button" outline onClick={() => push("/users/list")}>
+          <Button type="button" outline onClick={() => push("/admin/users/list")}>
             Cancel
           </Button>
           <Button disabled={isPending} loading={isPending} type="submit">

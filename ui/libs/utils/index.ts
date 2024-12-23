@@ -32,14 +32,14 @@ export const MENU_ROUTE: AppRoute[] = [
   {
     id: "user",
     name: "Users",
-    path: "/users/list",
+    path: "/admin/users/list",
     role: [USER_ROLE.ADMIN],
     display: true,
   },
   {
     id: "user",
     name: "Users",
-    path: "/users",
+    path: "/admin/users",
     role: [USER_ROLE.ADMIN],
   },
 ];

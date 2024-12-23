@@ -58,7 +58,7 @@ const User = () => {
         <ul className="py-2 text-sm text-gray-700" aria-labelledby="dropdownInformationButton">
           <li>
             <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-              Settings
+              Reset Password
             </a>
           </li>
         </ul>

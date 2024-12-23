@@ -37,7 +37,7 @@ const UserPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
   const { push } = useRouter();
 
   const handleEdit = (id: number) => {
-    push(`/users?id=${id}`);
+    push(`/admin/users?id=${id}`);
   };
 
   const handleOpenDeleteModal = (id: number) => {
@@ -126,7 +126,7 @@ const UserPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
       {container &&
         createPortal(
           <div className="fixed bottom-10 right-10">
-            <AddButton onClick={() => push("/users")} />
+            <AddButton onClick={() => push("/admin/users")} />
           </div>,
           container,
         )}

@@ -50,11 +50,11 @@ const MainMenu = () => {
             )}
           >
             {allowedRoutes.map((s) => (
-              <li key={s.id}>
+              <li key={s.id} className="w-full text-right">
                 <Link
                   href={s.path}
                   className={twMerge(
-                    "block py-2 px-3 rounded  md:p-0",
+                    "block py-2 px-3 rounded md:p-0",
                     path.startsWith(s.path, 0) && "text-white bg-blue-700 md:bg-transparent md:text-blue-700",
                   )}
                 >
