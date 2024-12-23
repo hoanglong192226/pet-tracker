@@ -31,10 +31,32 @@ export const SubmitUserPostRequest = z
   .object({
     id: z.coerce.number().int().optional(),
     username: z.string().trim().min(5).max(32).optional(),
-    password: z.string().trim().min(8).max(64),
-    repassword: z.string().trim().min(8).max(64),
-    role: z.coerce.number().int().gt(0).optional(),
+    password: z
+      .string()
+      .trim()
+      .transform((val) => (!val.length ? undefined : val))
+      .optional()
+      .refine((val) => val === undefined || (val.length >= 8 && val.length <= 64), {
+        message: "Password must be between 8 and 64 characters if provided.",
+      }),
+    repassword: z
+      .string()
+      .trim()
+      .transform((val) => (!val.length ? undefined : val))
+      .optional()
+      .refine((val) => val === undefined || (val.length >= 8 && val.length <= 64), {
+        message: "Re-Password must be between 8 and 64 characters if provided.",
+      }),
   })
-  .refine((s) => s.password === s.repassword, { message: "Re-password not match", path: ["repassword"] });
+  .refine(
+    (s) => {
+      if (s.password) {
+        return s.password === s.repassword;
+      }
+
+      return true;
+    },
+    { message: "Re-password not match", path: ["repassword"] },
+  );
 
 export type SubmitUserPostRequestSchema = z.infer<typeof SubmitUserPostRequest>;

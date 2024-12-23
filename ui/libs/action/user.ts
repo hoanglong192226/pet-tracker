@@ -100,7 +100,7 @@ export const submitUser = async (state: FormState<SubmitUserFormState, SubmitUse
         id: validatedFields.data.id,
         username: validatedFields.data.username,
         password: validatedFields.data.password,
-        role: "member",
+        role: formData.get("role"),
       },
       method: "POST",
     });

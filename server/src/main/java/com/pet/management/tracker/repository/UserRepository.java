@@ -13,4 +13,5 @@ public interface UserRepository extends BaseRepository<User, Long> {
   void deleteIfExist(@Param("id") Long id);
 
   List<User> findByUsername(String username);
+
 }

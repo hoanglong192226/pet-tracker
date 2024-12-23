@@ -21,10 +21,8 @@ public class UserDto {
   @Size(min = 5, max = 32, message = "Username must be between 6 and 32 characters")
   @NotNull
   private String username;
-  @Size(min = 8, max = 64, message = "Password must be between 8 and 64 characters")
 
   @JsonProperty(access = Access.WRITE_ONLY)
-  @NotNull
   private String password;
   @NotNull
   private UserRole role;

@@ -38,12 +38,16 @@ public class AdminController {
   public UserDto saveUser(@Valid @RequestBody UserDto userDto) {
     userValidator.validateSaveUser(userDto);
 
-    List<UserDto> results = userService.createUsers(Collections.singletonList(userDto));
-    if (results.isEmpty()) {
-      throw new ApplicationException(ErrorCode.INTERNAL_SERVER_ERROR, "Error on creating user");
+    if(userDto.getId() == null) {
+      List<UserDto> results = userService.createUsers(Collections.singletonList(userDto));
+      if (results.isEmpty()) {
+        throw new ApplicationException(ErrorCode.INTERNAL_SERVER_ERROR, "Error on creating user");
+      }
+
+      return results.get(0);
     }
 
-    return results.get(0);
+    return userService.updateUser(userDto);
   }
 
   @GetMapping("/users/{id}")

@@ -8,9 +8,10 @@ import Modal from "@/components/Modal";
 import Table, { TableHeaderProps, TableRowProps } from "@/components/Table";
 import { ToastProps } from "@/components/Toast";
 import { getUsers, deleteUser as deleteUserAction } from "@/libs/action/user";
-import { User } from "@/libs/model";
+import { User, USER_ROLE } from "@/libs/model";
+import { UserContext } from "app/contexts/user-context";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 
 const HEADERS: TableHeaderProps[] = [
@@ -25,6 +26,8 @@ const HEADERS: TableHeaderProps[] = [
 ];
 
 const UserPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
+  const { user: userProfile } = useContext(UserContext);
+
   const [users, setUsers] = useState<User[]>();
   const [deleteUser, setDeleteUser] = useState<User>();
   const [openModal, setOpenModal] = useState(false);
@@ -91,25 +94,23 @@ const UserPage = ({ setToast }: { setToast: (config: ToastProps) => void }) => {
   }, []);
 
   const userRows: TableRowProps[] = useMemo(() => {
-    return (users || []).map((user) => ({
-      id: String(user.id),
-      data: {
-        ...user,
-      },
-      actions: [
-        <Button disabled={user.username === "admin"} key={"edit"} onClick={() => handleEdit(user.id)}>
-          Edit
-        </Button>,
-        <Button
-          disabled={user.username === "admin"}
-          key={"delete"}
-          onClick={() => handleOpenDeleteModal(user.id)}
-          classNames="from-red-400 via-red-500 to-red-600"
-        >
-          Delete
-        </Button>,
-      ],
-    }));
+    return (users || [])
+      .filter((s) => s.username !== "admin" && s.username !== userProfile?.username)
+      .map((user) => ({
+        id: String(user.id),
+        data: {
+          ...user,
+          role: Object.entries(USER_ROLE).find((s) => s[1] === user.role)?.[0],
+        },
+        actions: [
+          <Button key={"edit"} onClick={() => handleEdit(user.id)}>
+            Edit
+          </Button>,
+          <Button key={"delete"} onClick={() => handleOpenDeleteModal(user.id)} classNames="from-red-400 via-red-500 to-red-600">
+            Delete
+          </Button>,
+        ],
+      }));
   }, [users]);
 
   return (
